@@ -1,0 +1,45 @@
+# Godot
+.godot/
+*.import
+*.gd.uid
+export_presets.cfg
+
+# Build outputs
+build/
+*.exe
+*.x86_64
+*.apk
+*.aab
+*.dmg
+*.app
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+.opencode/logs/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Temp
+*.tmp
+*.temp
+.cache/
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+credentials.json
