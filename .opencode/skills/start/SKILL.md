@@ -22,17 +22,26 @@ Entry point for new users. Detects project state and team structure, routes to t
 ## Phase 1: Detect State (Silent)
 
 **ACTION**: Try to read these files (skip if not found):
+- `.opencode/project-context.md` → **Team & project info already collected?**
 - `.opencode/docs/technical-preferences.md` → Engine configured?
 - `design/gdd/game-concept.md` → Game concept exists?
 - Check `src/` directory → Source code exists?
 
-**STOP**: After detection, proceed to Phase 2.
+**IF `project-context.md` EXISTS**:
+- Read team structure and project stage from it
+- Skip Phase 2 and Phase 3 (already answered)
+- Jump directly to Phase 4 with stored values
+
+**STOP**: After detection, proceed to Phase 2 (if config missing) or Phase 4 (if config exists).
 
 ---
 
 ## Phase 2: Team Structure Detection
 
-**ASK**:
+**IF config already has team structure**:
+- Skip this phase, use stored value
+
+**ELSE, ASK**:
 ```
 你的团队结构是什么？
 
@@ -42,13 +51,23 @@ C) 3人小队 — 我作为队长，有队友支持
 D) 更大团队 — 4人及以上
 ```
 
-**STOP**: Wait for user's answer. This determines workflow recommendations.
+**AFTER user answers**:
+1. **WRITE to `.opencode/project-context.md`**:
+   ```markdown
+   ## Team Structure
+   - **Type**: [用户选择的选项]
+   - **My Role**: [如果是B/C，询问队长角色]
+   ```
+2. **STOP**: Wait for user's answer before writing.
 
 ---
 
 ## Phase 3: Project Stage Check
 
-**ASK**:
+**IF config already has project stage**:
+- Skip this phase, use stored value
+
+**ELSE, ASK**:
 ```
 你目前处于哪个阶段？
 
@@ -58,7 +77,14 @@ C) 概念已清晰 — 我知道核心玩法，但还没文档化
 D) 已有工作成果 — 我已经有设计文档、原型或代码
 ```
 
-**STOP**: Wait for user's answer.
+**AFTER user answers**:
+1. **APPEND to `.opencode/project-context.md`**:
+   ```markdown
+   ## Project Stage
+   - **Current Stage**: [用户选择的选项]
+   - **Last Updated**: [当前日期]
+   ```
+2. **STOP**: Wait for user's answer before writing.
 
 ---
 
@@ -102,6 +128,12 @@ D) 已有工作成果 — 我已经有设计文档、原型或代码
 
 Once user confirms their next action:
 
+**TELL USER**:
+```
+✅ 项目信息已保存到 `.opencode/project-context.md`
+下次会话将自动读取，无需重复回答。
+```
+
 **For single developer**:
 - Suggest the primary skill and let them invoke it
 
@@ -143,8 +175,23 @@ Once user confirms their next action:
 | Error | Fallback |
 |-------|----------|
 | Cannot read files | Assume project is empty, proceed to Phase 2 |
+| `project-context.md` incomplete | Ask only missing sections, preserve existing |
 | User gives unclear answer | Ask clarifying question, do NOT guess |
 | User wants to skip onboarding | Say "好的，你可以随时使用 `/help` 查看可用命令" and stop |
+
+---
+
+## Persistent Config File
+
+**Location**: `.opencode/project-context.md`
+
+**Purpose**: Store team structure, project stage, platform info to avoid re-asking on new sessions.
+
+**Created by**: `/start` skill (Phase 2 & 3)
+
+**Updated by**: `/setup-engine` (engine info), `/brainstorm` (vision), other skills
+
+**Template**: `.opencode/docs/templates/project-context-template.md`
 
 ---
 
