@@ -1,29 +1,31 @@
-# Godot Version Reference
+# Godot Engine — Version Reference
 
 | Field | Value |
 |-------|-------|
-| **Engine** | Godot |
-| **Version** | 4.6.1 |
-| **Configured** | [Date] |
+| **Engine Version** | Godot 4.6.1 |
+| **Release Date** | January 2026 |
+| **Project Pinned** | 2026-04-01 |
+| **Last Docs Verified** | 2026-04-01 |
+| **LLM Knowledge Cutoff** | May 2025 |
 
-## Key Features (Godot 4)
+## Knowledge Gap Warning
 
-- GDScript 2.0 with improved typing
-- Vulkan rendering (forward_plus, mobile, compatibility)
-- Native 2D engine improvements
-- Improved 3D rendering quality
-- Better C# support
-- GDExtension for C++/Rust
+The LLM's training data likely covers Godot up to ~4.3. Versions 4.4, 4.5,
+and 4.6 introduced significant changes that the model does NOT know about.
+Always cross-reference this directory before suggesting Godot API calls.
 
-## API Notes
+## Post-Cutoff Version Timeline
 
-This document should be updated when:
-- Engine version changes
-- New APIs are discovered
-- Breaking changes are identified
+| Version | Release | Risk Level | Key Theme |
+|---------|---------|------------|-----------|
+| 4.4 | ~Mid 2025 | MEDIUM | Jolt physics option, FileAccess return types, shader texture type changes |
+| 4.5 | ~Late 2025 | HIGH | Accessibility (AccessKit), variadic args, @abstract, shader baker, SMAA |
+| 4.6 | Jan 2026 | HIGH | Jolt default, glow rework, D3D12 default on Windows, IK restored |
 
-## Resources
+## Verified Sources
 
-- [Godot Documentation](https://docs.godotengine.org/)
-- [Godot API Reference](https://docs.godotengine.org/en/stable/classes/)
-- [GDScript Reference](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/index.html)
+- Official docs: https://docs.godotengine.org/en/stable/
+- 4.5→4.6 migration: https://docs.godotengine.org/en/stable/tutorials/migrating/upgrading_to_godot_4.6.html
+- 4.4→4.5 migration: https://docs.godotengine.org/en/stable/tutorials/migrating/upgrading_to_godot_4.5.html
+- Changelog: https://github.com/godotengine/godot/blob/master/CHANGELOG.md
+- Release notes: https://godotengine.org/releases/4.6/

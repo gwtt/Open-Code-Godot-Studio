@@ -11,7 +11,7 @@ AI 驱动的 Godot 4.6.1 游戏开发框架。
 ## 这是什么？
 
 一套协调的 AI agent 系统，用于独立游戏开发：
-- **17 个专业技能** 用于 Godot 游戏开发
+- **18 个专业技能** 用于 Godot 游戏开发
 - **自动化 hooks** 强制质量检查
 - **路径范围规则** 编码标准
 
@@ -20,6 +20,69 @@ AI 驱动的 Godot 4.6.1 游戏开发框架。
 ---
 
 ## 快速开始 (5 分钟)
+
+### 🚀 应用到你的项目
+
+**Step 1: 克隆本项目**
+```bash
+git clone https://github.com/gwtt/Open-Code-Godot-Studio.git
+```
+
+**Step 2: 复制到你的项目**
+```bash
+# 复制框架到你的 Godot 项目
+cp -r Open-Code-Godot-Studio/.opencode/ 你的项目/.opencode/
+
+# 复制 OPENCODE.md（AI 入口配置）
+cp Open-Code-Godot-Studio/OPENCODE.md 你的项目/OPENCODE.md
+```
+
+**Step 3: 更新你的版本**
+
+编辑 `OPENCODE.md`，修改你的 Godot 版本：
+```markdown
+## Technology Stack
+- **Engine**: Godot 4.x  ← 改成你的版本
+```
+
+**Step 4: 在 OpenCode 中使用**
+
+在 OpenCode 中打开你的项目，运行：
+```
+/start
+```
+
+完成！你的项目现在拥有 18 个 Godot AI Skills。
+
+> **你复制的内容:**
+> - `.opencode/` — Skills、hooks、rules、engine reference
+> - `OPENCODE.md` — AI 入口配置
+
+---
+
+### 📁 最小必需文件
+
+如果你只需要核心功能：
+
+```
+你的项目/.opencode/
+├── skills/     # 必须 — 18 个 Godot Skills
+├── hooks/      # 推荐 — 自动化脚本
+└── rules/      # 推荐 — 编码标准
+```
+
+---
+
+### 🎯 你将获得
+
+| 组件 | 数量 | 用途 |
+|------|------|------|
+| **Skills** | 18 个 | Godot 专用 AI 代理 |
+| **Hooks** | 4 个 | 自动化（session、commit、asset） |
+| **Rules** | 3 个 | 编码标准（GDScript、C#） |
+| **Engine Reference** | 12 个文档 | API 更新参考（4.4-4.6） |
+
+---
 
 ### 方式 A: 交互式引导
 ```
@@ -42,7 +105,7 @@ AI 驱动的 Godot 4.6.1 游戏开发框架。
 
 | 文档 | 描述 |
 |------|------|
-| [SKILLS.md](docs/SKILLS.md) | 所有 17 个技能详细指南 |
+| [SKILLS.md](docs/SKILLS.md) | 所有 18 个技能详细指南 |
 | [WORKFLOW.md](docs/WORKFLOW.md) | 典型工作流程 |
 | [QUICK-START.md](docs/QUICK-START.md) | 5 分钟入门 |
 | [tutorials/](docs/tutorials/) | 实战教程 |
@@ -67,7 +130,7 @@ AI 驱动的 Godot 4.6.1 游戏开发框架。
 
 ```
 .opencode/
-├── skills/        → 17 个游戏开发技能
+├── skills/        → 18 个游戏开发技能
 ├── hooks/         → 自动化脚本
 ├── rules/         → 编码标准
 └── docs/          → 模板和参考
@@ -156,3 +219,19 @@ tests/             → 测试套件
 ## 许可证
 
 MIT License
+
+---
+
+## 快速总结
+
+```bash
+# 1. 克隆
+git clone https://github.com/gwtt/Open-Code-Godot-Studio.git
+
+# 2. 复制到你的项目
+cp -r Open-Code-Godot-Studio/.opencode/ 你的项目/
+cp Open-Code-Godot-Studio/OPENCODE.md 你的项目/
+
+# 3. 修改 OPENCODE.md 中的版本号
+# 4. 在 OpenCode 中运行 /start
+```

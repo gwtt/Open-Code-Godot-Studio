@@ -11,7 +11,7 @@ AI-powered game development framework for Godot 4.6.1.
 ## What Is This?
 
 A coordinated AI agent system for indie game development:
-- **17 specialized skills** for Godot game dev
+- **18 specialized skills** for Godot game dev
 - **Automated hooks** for quality enforcement
 - **Path-scoped rules** for coding standards
 
@@ -20,6 +20,69 @@ Adapted from [Claude-Code-Game-Studios](https://github.com/Donchitos/Claude-Code
 ---
 
 ## Quick Start (5 minutes)
+
+### 🚀 Apply to Your Project
+
+**Step 1: Clone this repo**
+```bash
+git clone https://github.com/gwtt/Open-Code-Godot-Studio.git
+```
+
+**Step 2: Copy to your project**
+```bash
+# Copy the framework to your Godot project
+cp -r Open-Code-Godot-Studio/.opencode/ your-godot-project/.opencode/
+
+# Copy OPENCODE.md (AI entry point)
+cp Open-Code-Godot-Studio/OPENCODE.md your-godot-project/OPENCODE.md
+```
+
+**Step 3: Update your version**
+
+Edit `OPENCODE.md` and update your Godot version:
+```markdown
+## Technology Stack
+- **Engine**: Godot 4.x  ← Change to your version
+```
+
+**Step 4: Use in OpenCode**
+
+Open your project in OpenCode and run:
+```
+/start
+```
+
+Done! You now have 18 Godot AI skills in your project.
+
+> **What you copied:**
+> - `.opencode/` — Skills, hooks, rules, engine reference
+> - `OPENCODE.md` — AI entry point configuration
+
+---
+
+### 📁 Minimum Required Files
+
+If you only need core functionality:
+
+```
+your-project/.opencode/
+├── skills/     # Required — 18 Godot skills
+├── hooks/      # Recommended — Automation scripts
+└── rules/      # Recommended — Coding standards
+```
+
+---
+
+### 🎯 What You Get
+
+| Component | Count | Purpose |
+|-----------|-------|---------|
+| **Skills** | 18 | Godot-specific AI agents |
+| **Hooks** | 4 | Automation (session, commit, asset) |
+| **Rules** | 3 | Coding standards (GDScript, C#) |
+| **Engine Reference** | 12 docs | API updates (4.4-4.6) |
+
+---
 
 ### Option A: Interactive Onboarding
 ```
@@ -42,7 +105,7 @@ System detects your state and guides you.
 
 | Document | Description |
 |----------|-------------|
-| [SKILLS.md](docs/SKILLS.md) | All 17 skills detailed guide |
+| [SKILLS.md](docs/SKILLS.md) | All 18 skills detailed guide |
 | [WORKFLOW.md](docs/WORKFLOW.md) | Typical workflows |
 | [QUICK-START.md](docs/QUICK-START.md) | 5-minute guide |
 | [tutorials/](docs/tutorials/) | Hands-on tutorials |
@@ -67,7 +130,7 @@ System detects your state and guides you.
 
 ```
 .opencode/
-├── skills/        → 17 game dev skills
+├── skills/        → 18 game dev skills
 ├── hooks/         → Automation scripts
 ├── rules/         → Coding standards
 └── docs/          → Templates and references
@@ -156,3 +219,19 @@ See original project: [Claude-Code-Game-Studios](https://github.com/Donchitos/Cl
 ## License
 
 MIT License
+
+---
+
+## Quick Summary
+
+```bash
+# 1. Clone
+git clone https://github.com/gwtt/Open-Code-Godot-Studio.git
+
+# 2. Copy to your project
+cp -r Open-Code-Godot-Studio/.opencode/ your-project/
+cp Open-Code-Godot-Studio/OPENCODE.md your-project/
+
+# 3. Update version in OPENCODE.md
+# 4. Run /start in OpenCode
+```
