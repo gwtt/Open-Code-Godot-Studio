@@ -22,7 +22,7 @@ Configure Godot engine settings, project structure, and technical preferences.
 ## Phase 1: Parse Arguments & Detect State
 
 **CHECK**:
-- Argument provided? (`/setup-engine godot 4.3`)
+- Argument provided? (`/setup-engine godot 4.6.1`)
 - Existing config? Try read `.opencode/docs/technical-preferences.md`
 - Game concept? Try read `design/gdd/game-concept.md`
 
@@ -46,7 +46,7 @@ Configure Godot engine settings, project structure, and technical preferences.
 ### Version Selection
 
 **TRY** WebSearch for latest Godot 4 stable version.
-**IF WebSearch FAILS**: Use default "4.3" (safe fallback)
+**IF WebSearch FAILS**: Use default "4.6.1" (safe fallback)
 
 **ASK**: "最新稳定版是 Godot [version]。使用这个版本？(Y/n)"
 

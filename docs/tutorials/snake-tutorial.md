@@ -198,7 +198,7 @@ Godot 4 — 2D游戏，GDScript开发快速
 ### 与 OpenCode 对话
 
 ```
-你: /setup-engine godot 4.3
+你: /setup-engine godot 4.6.1
 ```
 
 ### OpenCode 会检测
@@ -211,7 +211,7 @@ Sprint 状态检查
 当前Sprint: 无
 ━━━━━━━━━━━━━━━━━━━━━━
 
-正在配置 Godot 4.3...
+正在配置 Godot 4.6.1...
 ```
 
 ### OpenCode 会展示变更预览
@@ -241,7 +241,7 @@ OpenCode:
 OpenCode: 
 ✅ 引擎配置完成
 ━━━━━━━━━━━━━━━━━━━━━━
-Engine:          Godot 4.3
+Engine:          Godot 4.6.1
 OPENCODE.md:     ✅ 已更新
 Tech Prefs:      ✅ 已创建
 Project Structure: ✅ 已创建
@@ -1241,7 +1241,7 @@ OpenCode:
    ↓
 2. /brainstorm "贪吃蛇" → 生成游戏概念文档
    ↓
-3. /setup-engine godot 4.3 → 配置引擎
+3. /setup-engine godot 4.6.1 → 配置引擎
    ↓
 4. /game-designer → 设计系统
    ↓

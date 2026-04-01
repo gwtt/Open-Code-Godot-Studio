@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Engine** | Godot |
-| **Version** | 4.x |
+| **Version** | 4.6.1 |
 | **Configured** | [Date] |
 
 ## Key Features (Godot 4)

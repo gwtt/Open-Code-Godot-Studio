@@ -4,7 +4,7 @@ This document defines the technical standards and preferences for the project.
 
 ## Engine & Language
 
-- **Engine**: Godot 4.x
+- **Engine**: Godot 4.6.1
 - **Primary Language**: GDScript
 - **Performance Language**: GDExtension (C++/Rust) when needed
 - **Version Control**: Git
@@ -82,7 +82,7 @@ project/
 
 ## Dependencies
 
-- Engine: Godot 4.x
+- Engine: Godot 4.6.1
 - Testing: GUT (Godot Unit Test)
 - Version Control: Git
 
