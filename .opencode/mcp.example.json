@@ -1,0 +1,183 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/mcp-config",
+  "version": "1.0",
+  "description": "OpenCode Godot Studio - MCP Server Configuration",
+  "mcpServers": {
+    "pixellab": {
+      "type": "http",
+      "url": "https://api.pixellab.ai/mcp",
+      "description": "PixelLab - AI Pixel Art Generation (像素艺术生成)",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer YOUR_PIXELLAB_API_TOKEN"
+      },
+      "tools": [
+        {
+          "name": "create_character",
+          "description": "生成像素角色 (Generate pixel art character)",
+          "parameters": {
+            "description": "角色描述 (Character description)",
+            "n_directions": "方向数 1-8 (Number of directions 1-8, default: 8)"
+          }
+        },
+        {
+          "name": "animate_character",
+          "description": "为角色添加动画 (Animate pixel character)",
+          "parameters": {
+            "character_id": "角色ID (Character ID)",
+            "animation": "动画类型：idle, walk, run, attack 等"
+          }
+        },
+        {
+          "name": "create_tileset",
+          "description": "生成瓦片集 (Generate tileset)",
+          "parameters": {
+            "lower": "下层描述 (Lower layer description)",
+            "upper": "上层描述 (Upper layer description)"
+          }
+        },
+        {
+          "name": "create_isometric_tile",
+          "description": "生成等距瓦片 (Generate isometric tile)",
+          "parameters": {
+            "description": "瓦片描述 (Tile description)",
+            "size": "瓦片大小 (Tile size, default: 32)"
+          }
+        }
+      ],
+      "output": {
+        "directory": "assets/sprites/generated/",
+        "format": "png"
+      },
+      "docs": "https://pixellab.ai/dashboard",
+      "apiKeyUrl": "https://pixellab.ai/dashboard"
+    },
+    
+    "elevenlabs": {
+      "type": "command",
+      "command": "uvx",
+      "args": ["elevenlabs-mcp"],
+      "description": "ElevenLabs - AI Audio/Music Generation (音频/音乐生成)",
+      "enabled": false,
+      "env": {
+        "ELEVENLABS_API_KEY": "YOUR_ELEVENLABS_API_KEY",
+        "ELEVENLABS_MCP_OUTPUT_MODE": "files",
+        "ELEVENLABS_API_RESIDENCY": "us"
+      },
+      "tools": [
+        {
+          "name": "generate_speech",
+          "description": "生成语音 (Generate speech from text)",
+          "parameters": {
+            "text": "要转换的文本",
+            "voice_id": "声音ID (Voice ID, optional)"
+          }
+        },
+        {
+          "name": "generate_sound_effect",
+          "description": "生成音效 (Generate sound effect)",
+          "parameters": {
+            "prompt": "音效描述 (Sound effect description)"
+          }
+        },
+        {
+          "name": "list_voices",
+          "description": "列出可用声音 (List available voices)",
+          "parameters": {}
+        }
+      ],
+      "output": {
+        "directory": "assets/audio/generated/",
+        "format": "wav"
+      },
+      "docs": "https://elevenlabs.io/docs",
+      "apiKeyUrl": "https://elevenlabs.io",
+      "requirements": {
+        "uv": "pip install uv",
+        "python": ">=3.8"
+      }
+    },
+    
+    "godot": {
+      "type": "command",
+      "command": "npx",
+      "args": ["@coding-solo/godot-mcp"],
+      "description": "Godot MCP - Godot Project Control (Godot 项目控制)",
+      "enabled": false,
+      "env": {
+        "GODOT_PATH": "YOUR_GODOT_EXECUTABLE_PATH",
+        "DEBUG": "false"
+      },
+      "tools": [
+        {
+          "name": "create_scene",
+          "description": "创建新场景 (Create new scene)",
+          "parameters": {
+            "scene_path": "场景路径 (Scene path, e.g., res://Scenes/Main.tscn)",
+            "root_node_type": "根节点类型 (Root node type, default: Node2D)"
+          }
+        },
+        {
+          "name": "add_node",
+          "description": "向场景添加节点 (Add node to scene)",
+          "parameters": {
+            "scene_path": "场景路径",
+            "node_type": "节点类型 (Node type, e.g., Sprite2D, Timer)",
+            "node_name": "节点名称 (Node name)"
+          }
+        },
+        {
+          "name": "load_sprite",
+          "description": "加载精灵贴图 (Load sprite texture)",
+          "parameters": {
+            "scene_path": "场景路径",
+            "node_path": "节点路径",
+            "texture_path": "贴图路径 (Texture path)"
+          }
+        },
+        {
+          "name": "save_scene",
+          "description": "保存场景 (Save scene)",
+          "parameters": {
+            "scene_path": "场景路径"
+          }
+        },
+        {
+          "name": "run_project",
+          "description": "运行项目 (Run Godot project)",
+          "parameters": {}
+        },
+        {
+          "name": "export_mesh_library",
+          "description": "导出 MeshLibrary (Export MeshLibrary)",
+          "parameters": {
+            "scene_path": "场景路径",
+            "output_path": "输出路径"
+          }
+        }
+      ],
+      "docs": "https://github.com/Coding-Solo/godot-mcp",
+      "requirements": {
+        "node": ">=18",
+        "godot": "4.x"
+      }
+    }
+  },
+  
+  "globalSettings": {
+    "timeout": 30000,
+    "retryAttempts": 3,
+    "logLevel": "info"
+  },
+  
+  "_instructions": {
+    "zh_CN": {
+      "setup": "运行 scripts/setup-mcp.ps1 (Windows) 或 scripts/setup-mcp.sh (Linux/macOS) 进行一键配置",
+      "pixellab_api_key": "从 https://pixellab.ai/dashboard 获取 API Token",
+      "elevenlabs_api_key": "从 https://elevenlabs.io 获取 API Key",
+      "godot_path": "设置 Godot 可执行文件的完整路径，例如: C:\\Godot\\Godot_v4.6.1.exe",
+      "enable_server": "将 enabled 改为 true 启用服务器",
+      "output_directory": "生成的资源会自动保存到指定的 output.directory"
+    }
+  }
+}

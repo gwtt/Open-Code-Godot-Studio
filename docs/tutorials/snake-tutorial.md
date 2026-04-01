@@ -1290,4 +1290,315 @@ OpenCode:
 
 ---
 
+## 10. MCP 增强阶段：使用 AI 生成资源
+
+### 你要做什么
+使用 MCP 服务器让 AI 生成游戏的美术和音效资源，快速打造独特风格。
+
+### 什么是 MCP？
+
+**MCP (Model Context Protocol)** 是一个开放协议，允许 AI Agent 与外部工具服务连接。通过 MCP，你可以：
+
+- 🎨 **生成像素艺术** - PixelLab MCP
+- 🔊 **生成游戏音效** - ElevenLabs MCP
+- 🎮 **自动化 Godot 操作** - Godot MCP
+
+```
+你: 用 PixelLab 生成像素蛇
+AI: [调用 MCP] → 生成图片 → 保存到 assets/
+```
+
+### 前置准备
+
+```
+你: 我想为贪吃蛇添加自定义的美术和音效，怎么做最快？
+```
+
+### OpenCode 会推荐
+
+```
+OpenCode: 你可以用 MCP 集成来 AI 生成资源！
+
+## 快速配置步骤
+
+### 1. 获取 API Keys
+
+**PixelLab** (像素艺术):
+- 访问: https://pixellab.ai/dashboard
+- 注册获取 API Token
+- 免费额度可用
+
+**ElevenLabs** (音效):
+- 访问: https://elevenlabs.io
+- 注册获取 API Key
+- 免费额度可用
+
+### 2. 运行配置脚本
+
+Windows:
+```powershell
+.\scripts\setup-mcp.ps1
+```
+
+Linux/macOS:
+```bash
+chmod +x scripts/setup-mcp.sh
+./scripts/setup-mcp.sh
+```
+
+### 3. 输入 API Keys
+
+按提示输入你的 API Keys，脚本会自动配置。
+
+需要帮助吗？
+```
+
+### 配置 MCP
+
+```
+你: 帮我配置 MCP
+```
+
+### OpenCode 指导配置
+
+```
+OpenCode: 
+好的！我来帮你配置 MCP 集成。
+
+## 步骤 1: 获取 API Keys
+
+### PixelLab（像素艺术）
+1. 访问 https://pixellab.ai
+2. 点击 Sign Up 注册账号
+3. 进入 Dashboard 获取 API Token
+
+### ElevenLabs（音频）
+1. 访问 https://elevenlabs.io
+2. 注册账号
+3. 在 Settings → API Keys 获取 Key
+
+## 步骤 2: 运行配置脚本
+
+在终端运行：
+```powershell
+.\scripts\setup-mcp.ps1
+```
+
+按提示输入你的 API Keys。
+
+## 步骤 3: 验证配置
+
+配置完成后告诉我，我来帮你生成资源！
+```
+
+### 生成像素资源
+
+```
+你: MCP 已配置，帮我生成贪吃蛇的像素角色
+```
+
+### OpenCode 生成资源
+
+```
+OpenCode: 
+正在调用 PixelLab MCP...
+
+✅ 已生成以下资源：
+- assets/sprites/generated/snake_head_8x8.png
+- assets/sprites/generated/snake_body_8x8.png
+- assets/sprites/generated/food_apple_8x8.png
+- assets/sprites/generated/food_star_8x8.png
+
+这些资源已保存到你的项目目录中。
+
+下一步：在 Godot 中导入这些资源
+```
+
+### 生成音效
+
+```
+你: 再生成游戏音效
+```
+
+### OpenCode 生成音效
+
+```
+OpenCode:
+正在调用 ElevenLabs MCP...
+
+✅ 已生成以下音效：
+- assets/audio/generated/sfx_eat_normal.wav (普通食物)
+- assets/audio/generated/sfx_eat_special.wav (特殊食物)
+- assets/audio/generated/sfx_game_over.wav (游戏结束)
+
+音效特点：
+- eat_normal: 短促清脆 (0.3秒)
+- eat_special: 欢快魔法 (0.5秒)
+- game_over: 低沉警告 (1秒)
+```
+
+### 集成到项目
+
+```
+你: 如何使用这些生成的资源？
+```
+
+### OpenCode 指导集成
+
+```
+OpenCode:
+## 1. 导入像素资源
+
+在 Godot 中：
+1. 将 `assets/sprites/generated/` 拖入 FileSystem
+2. 资源会自动导入
+
+## 2. 更新代码使用 Sprite2D
+
+修改 `game.gd` 中的显示部分：
+
+```gdscript
+# 原来使用 ColorRect
+func create_snake_segment(pos: Vector2, is_head: bool):
+    var rect = ColorRect.new()
+    rect.size = Vector2(CELL_SIZE - 2, CELL_SIZE - 2)
+    rect.position = pos * CELL_SIZE + Vector2(1, 1)
+    rect.color = Color.YELLOW if is_head else Color.GREEN
+    snake_container.add_child(rect)
+
+# 改用 Sprite2D 加载生成的图片
+func create_snake_segment(pos: Vector2, is_head: bool):
+    var sprite = Sprite2D.new()
+    if is_head:
+        sprite.texture = load("res://assets/sprites/generated/snake_head_8x8.png")
+    else:
+        sprite.texture = load("res://assets/sprites/generated/snake_body_8x8.png")
+    sprite.position = pos * CELL_SIZE + Vector2(CELL_SIZE/2, CELL_SIZE/2)
+    snake_container.add_child(sprite)
+```
+
+## 3. 添加音效播放
+
+在 `eat_food()` 函数中添加音效：
+
+```gdscript
+func eat_food():
+    # 播放音效
+    var sound_player = AudioStreamPlayer.new()
+    if food_type == "special":
+        sound_player.stream = load("res://assets/audio/generated/sfx_eat_special.wav")
+    else:
+        sound_player.stream = load("res://assets/audio/generated/sfx_eat_normal.wav")
+    add_child(sound_player)
+    sound_player.play()
+    
+    # 原有逻辑
+    score += 10
+    update_score_display()
+    # ...
+```
+
+## 4. 食物显示
+
+更新食物显示：
+
+```gdscript
+func update_food_display():
+    var texture_path = "res://assets/sprites/generated/food_apple_8x8.png"
+    if food_type == "special":
+        texture_path = "res://assets/sprites/generated/food_star_8x8.png"
+    food_sprite.texture = load(texture_path)
+```
+
+需要我帮你应用这些更改吗？
+```
+
+### 测试效果
+
+```
+你: 应用更改并运行游戏
+```
+
+### OpenCode 执行测试
+
+```
+OpenCode:
+正在更新代码...
+
+✅ 已更新 game.gd
+✅ 已添加音效播放
+✅ 已更新食物显示
+
+正在启动游戏...
+
+观察结果：
+✅ 蛇头显示像素图片
+✅ 蛇身显示像素图片
+✅ 食物显示苹果/星星图片
+✅ 吃食物播放对应音效
+
+效果如何？需要调整吗？
+```
+
+### 进一步增强
+
+```
+你: 还可以生成什么？
+```
+
+### OpenCode 建议
+
+```
+OpenCode:
+MCP 还可以帮你：
+
+## 视觉增强
+- 🎨 生成 UI 按钮（开始、重新开始）
+- 🎨 生成背景瓦片
+- 🎨 生成粒子效果贴图
+
+## 音频增强  
+- 🔊 生成背景音乐
+- 🔊 生成按钮点击音效
+- 🔊 生成不同风格的吃食物音效
+
+## 自动化
+- 🎮 批量创建测试场景
+- 🎮 自动生成碰撞形状
+- 🎮 导出资源包
+
+需要我帮你生成这些吗？
+```
+
+---
+
+## MCP 增强总结
+
+| 功能 | 传统方式 | MCP 方式 | 时间节省 |
+|------|----------|----------|----------|
+| 美术资源 | 手绘/购买素材 | AI 生成 | 90%+ |
+| 音效资源 | 手动录音/购买 | AI 生成 | 90%+ |
+| 资源集成 | 手动导入配置 | AI 辅助 | 50%+ |
+
+### 优势
+
+- ⚡ **快速迭代** - 几秒生成新资源
+- 💰 **低成本** - 无需购买素材包
+- 🎯 **定制化** - 完全符合游戏需求
+- 🔄 **易于修改** - 不满意随时重新生成
+
+### 注意事项
+
+1. **审核资源** - AI 生成的内容需要人工检查
+2. **统一风格** - 提供一致的风格描述词
+3. **备份资源** - 定期备份生成的文件
+4. **API 配额** - 注意免费额度限制
+
+### 更多资源
+
+- 📖 [MCP 集成指南](../mcp/MCP_GUIDE_CN.md)
+- 📝 [使用示例集](../mcp/EXAMPLES_CN.md)
+
+---
+
 *恭喜你完成了贪吃蛇游戏！继续探索更多 skills 来提升你的游戏吧。*

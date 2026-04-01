@@ -1,0 +1,15 @@
+{
+  "$schema": "./mcp.example.json",
+  "version": "1.0",
+  "mcpServers": {
+    "pixellab": {
+      "enabled": false
+    },
+    "elevenlabs": {
+      "enabled": false
+    },
+    "godot": {
+      "enabled": false
+    }
+  }
+}
