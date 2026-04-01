@@ -6,104 +6,110 @@ license: MIT
 
 # Brainstorm Skill
 
-Guided ideation using professional game design frameworks to explore and develop game concepts.
+Guided ideation using professional game design frameworks. Develops vague concepts into formal game concept documents.
 
-## Workflow
+---
 
-### 1. Initial Input
+## ⚠️ EXECUTION RULES
 
-Accepts optional seed input:
-- `/brainstorm` — Open exploration
-- `/brainstorm "space exploration game"` — Develop specific idea
-- `/brainstorm open` — Maximum openness to new ideas
+1. **ONE PHASE PER TURN** — Execute only one phase, then STOP and wait for user
+2. **ASK BEFORE WRITING** — Never write files without explicit approval
+3. **KEEP IT CONVERSATIONAL** — This is a dialogue, not a form
+4. **IF USER WANTS TO SKIP** — Jump to Phase 6 (Output) with what we have
 
-### 2. Discovery Phase
+---
 
-#### If No Seed Provided
+## Phase 1: Initial Context
 
-Explore interests and preferences:
+**ASK ONE QUESTION** based on invocation:
 
-1. **Player Experience Questions**
-   - What feelings do you want players to have?
-   - What games do you love? What makes them special?
-   - What do you want to avoid?
+| Invocation | Action |
+|------------|--------|
+| `/brainstorm` | Ask: "你想做什么类型的游戏？有什么特别的感受想给玩家吗？" |
+| `/brainstorm "idea"` | Ask: "'[idea]' 这个想法里，最让你兴奋的是什么？" |
+| `/brainstorm open` | Ask: "告诉我你最近玩过且喜欢的游戏，我们一起分析为什么它吸引你。" |
 
-2. **Verb Exploration**
-   - What actions should players take?
-   - What verbs define the experience? (explore, build, fight, discover...)
-   - What's the core loop?
+**STOP**: Wait for user response. Do NOT proceed until answered.
 
-3. **Theme and Setting**
-   - What worlds interest you?
-   - What tone? (serious, playful, dark, hopeful...)
-   - Any specific aesthetic preferences?
+---
 
-#### If Seed Provided
+## Phase 2: Core Concept Discovery
 
-Develop the seed:
-1. Clarify what excites you about this idea
-2. Identify the core fantasy
-3. Explore what makes it unique
+Based on user's answer, explore **ONE** of these areas (user's choice):
 
-### 3. Concept Development
+### Option A: Player Experience
+- "你希望玩家感受到什么？" (e.g., 紧张、成就感、探索欲)
+- "玩家会做什么动作？" (core verbs: 探索、战斗、建造...)
 
-Use frameworks to structure the idea:
+### Option B: Theme & Setting
+- "游戏发生在什么世界？" (奇幻、科幻、现代...)
+- "你想要什么风格？" (严肃、轻松、黑暗、希望...)
 
-#### MDA Analysis
+### Option C: Core Loop
+- "玩家会重复做什么？"
+- "什么让他们想再来一次？"
 
+**STOP**: Ask user which area to explore, or if they want to proceed to structure.
+
+---
+
+## Phase 3: Structure the Concept
+
+Use **ONE** framework to organize (ask user which):
+
+### MDA Analysis (Quick)
 | Layer | Question | Your Concept |
 |-------|----------|--------------|
-| **Aesthetics** | What feelings? | |
-| **Dynamics** | What emergent behavior? | |
-| **Mechanics** | What rules? | |
+| Aesthetics | 玩家感受什么？ | |
+| Dynamics | 产生什么行为？ | |
+| Mechanics | 需要什么规则？ | |
 
-#### Design Pillars (3-5)
+### Design Pillars (3 max)
+Define 2-3 foundational principles:
+1. [Pillar 1] — e.g., "策略深度而非反应速度"
+2. [Pillar 2] — e.g., "有意义的选择"
+3. [Pillar 3] — e.g., "涌现式叙事"
 
-Define the foundational principles:
-1. [Pillar 1] — e.g., "Tactical depth over twitch skill"
-2. [Pillar 2] — e.g., "Meaningful player choice"
-3. [Pillar 3] — e.g., "Emergent storytelling"
+**STOP**: Show the structure, ask "这个框架符合你的想法吗？需要调整吗？"
 
-#### Player Psychology
+---
 
-Map to Self-Determination Theory:
-- **Autonomy** — How do players have agency?
-- **Competence** — How do players grow mastery?
-- **Relatedness** — How do players connect?
+## Phase 4: Scope Check
 
-#### Target Player
-
-Define who this is for:
-- Experience level (casual, core, hardcore)
-- Time commitment (session length, total hours)
-- Platform preference
-- What they value in games
-
-### 4. Scope Considerations
-
-Help user understand realistic scope:
+Present scope options:
 
 | Scope | Team | Duration | Features |
 |-------|------|----------|----------|
 | **Jam** | Solo | 48h-1w | 1-2 core mechanics |
 | **Small** | Solo/2-3 | 1-6mo | 3-5 systems |
 | **Medium** | 3-10 | 6-18mo | Multiple systems |
-| **Large** | 10+ | 18mo+ | Full production |
 
-### 5. Engine Recommendation
+**ASK**: "你的项目规模目标是什么？"
 
-Based on concept, recommend engine:
+**STOP**: Wait for user's scope decision.
 
-| Godot 4 | Unity | Unreal 5 |
-|---------|-------|----------|
-| 2D games | Mobile | AAA 3D |
-| Small-mid 3D | Cross-platform | Photorealism |
-| Solo/small teams | Mid-scope | Large teams |
-| Open source | C# ecosystem | C++/Blueprint |
+---
 
-### 6. Output: Game Concept Document
+## Phase 5: Engine Recommendation
 
-Create `design/gdd/game-concept.md`:
+Based on concept, suggest engine:
+
+| Concept Type | Recommendation |
+|--------------|----------------|
+| 2D game | Godot 4 (excellent 2D support) |
+| 2D/3D mix | Godot 4 or Unity |
+| AAA 3D | Unreal 5 |
+| Mobile cross-platform | Unity |
+
+**ASK**: "你倾向哪个引擎？"
+
+**STOP**: Wait for user's engine preference.
+
+---
+
+## Phase 6: Generate Output
+
+Present the **Game Concept Document** for approval:
 
 ```markdown
 # [Game Title]
@@ -114,7 +120,7 @@ Create `design/gdd/game-concept.md`:
 ## Design Pillars
 1. [Pillar 1]
 2. [Pillar 2]
-3. [Pillar 3]
+3. [Pillar 3] (optional)
 
 ## Core Loop
 1. [Action]
@@ -141,17 +147,45 @@ Create `design/gdd/game-concept.md`:
 3. Prototype core mechanic
 ```
 
-### 7. Confirm and Save
+**ASK**: "我可以把这个保存到 `design/gdd/game-concept.md` 吗？"
 
-Before writing:
-1. Present the concept document
-2. Ask for adjustments
-3. Get approval to write
-4. Save to `design/gdd/game-concept.md`
+**STOP**: Wait for explicit approval.
 
-## Collaborative Protocol
+---
 
-1. **Explore freely** — No wrong answers in brainstorming
-2. **Structure progressively** — Add frameworks as clarity emerges
-3. **User approves output** — Show document before saving
-4. **Document decisions** — Record the "why" behind choices
+## Phase 7: Save (Only After Approval)
+
+**IF USER APPROVES**:
+- Create directory if needed: `design/gdd/`
+- Write file: `design/gdd/game-concept.md`
+- Say: "✅ 已保存到 design/gdd/game-concept.md"
+
+**IF USER WANTS CHANGES**:
+- Make changes, re-present, ask for approval again
+
+**STOP**: After saving or if user declines.
+
+---
+
+## Error Handling
+
+| Error | Fallback |
+|-------|----------|
+| User gives very short answers | Ask follow-up questions, don't assume |
+| User seems confused by frameworks | Skip framework, just summarize what they said |
+| User wants to quit | Say "好的，你可以随时继续。想保存目前的想法吗？" |
+| Cannot create directory | Ask user to create `design/gdd/` manually, then retry |
+
+---
+
+## Quick Reference
+
+| Phase | Purpose | End With |
+|-------|---------|----------|
+| 1. Context | Understand starting point | User's initial idea |
+| 2. Discovery | Explore core elements | User's choice of focus |
+| 3. Structure | Apply framework | User's approval of structure |
+| 4. Scope | Set realistic goals | User's scope decision |
+| 5. Engine | Technology choice | User's engine preference |
+| 6. Output | Generate document | User's approval to save |
+| 7. Save | Write file | Confirmation |

@@ -6,209 +6,200 @@ license: MIT
 
 # Design Review Skill
 
-Review game design documents, mechanics, systems, and player experience for quality and alignment with project pillars.
+审查游戏设计文档、机制和玩家体验，验证是否符合设计支柱。
 
-## Workflow
+---
 
-### 1. Scope Definition
+## ⚠️ EXECUTION RULES
 
-Ask what to review:
-- `/design-review` — Review all design docs
-- `/design-review combat.md` — Review specific document
-- `/design-review --system combat` — Review specific system
+1. **SCOPE FIRST** — 先确定审查范围
+2. **ONE AREA AT A TIME** — 一次审查一个领域
+3. **PRIORITIZE FINDINGS** — 按严重程度分类
+4. **BE CONSTRUCTIVE** — 提供解决方案，不只是批评
 
-### 2. Load Context
+---
 
-Before reviewing:
-1. Read `design/gdd/game-concept.md` for pillars
-2. Identify target player persona
-3. Understand project scope constraints
-4. Note any existing design decisions
+## Quick Actions
 
-### 3. Review Categories
+| 命令 | 行动 |
+|------|------|
+| `/design-review` | 审查所有设计文档 |
+| `/design-review [file]` | 审查特定文件 |
+| `/design-review --system [name]` | 审查特定系统 |
 
-#### Pillar Alignment
+---
 
-For each design element:
-- [ ] Which pillar does this support?
-- [ ] Does it conflict with any pillar?
-- [ ] Is the pillar connection clear?
+## Phase 1: Scope Definition
 
-#### Player Experience
+**ASK**:
+```
+你想审查什么？
 
-- [ ] Is the player fantasy clear?
-- [ ] Is the core loop engaging?
-- [ ] Are rewards meaningful?
-- [ ] Is progression satisfying?
-- [ ] Are there "juice" moments?
+A) 整体设计（游戏概念 + 支柱）
+B) 特定文档（指定文件）
+C) 特定系统（如：战斗、经济、进度）
+D) 玩家体验评估
+```
 
-#### Mechanics Review
+**STOP**: Wait for user's choice.
 
-- [ ] Are rules clear and consistent?
-- [ ] Are edge cases handled?
-- [ ] Is the learning curve appropriate?
-- [ ] Is there depth for mastery?
-- [ ] Are there meaningful choices?
+---
 
-#### Balance Assessment
+## Phase 2: Load Context
 
-- [ ] Are options internally balanced?
-- [ ] Are there dominant strategies?
-- [ ] Is the difficulty curve appropriate?
-- [ ] Are risk/reward ratios fair?
+**READ**:
+- `design/gdd/game-concept.md` → 游戏概念
+- `design/gdd/pillars.md` (if exists) → 设计支柱
+- Target file/system
 
-#### Player Psychology
+**IF no pillars defined**:
+- Extract pillars from game-concept.md
+- **ASK**: "没有找到明确的支柱，要我根据游戏概念推断吗？"
 
-- [ ] **Autonomy**: Do players have agency?
-- [ ] **Competence**: Is there mastery?
-- [ ] **Relatedness**: Connection opportunities?
+**STOP**: Confirm context is correct.
 
-#### Scope Reality
+---
 
-- [ ] Is this achievable within constraints?
-- [ ] Are dependencies identified?
-- [ ] Is there appropriate MVP scope?
+## Phase 3: Review (by Area)
 
-### 4. Document Quality
+### A) 整体设计审查
 
-For each design document:
+**核心检查项** (精简版):
+
+| 检查项 | 状态 | 备注 |
+|--------|------|------|
+| 设计支柱清晰？ | ✅/⚠️/❌ | |
+| 核心循环有吸引力？ | ✅/⚠️/❌ | |
+| 目标玩家明确？ | ✅/⚠️/❌ | |
+| 范围现实可行？ | ✅/⚠️/❌ | |
+
+### B) 文档审查
+
+**检查项**:
+| 检查项 | 状态 |
+|--------|------|
+| 结构完整？ | ✅/⚠️/❌ |
+| 规则清晰？ | ✅/⚠️/❌ |
+| 边缘情况处理？ | ✅/⚠️/❌ |
+| 可测试？ | ✅/⚠️/❌ |
+
+### C) 系统审查
+
+**检查项**:
+| 检查项 | 状态 |
+|--------|------|
+| 符合支柱？ | ✅/⚠️/❌ |
+| 机制清晰？ | ✅/⚠️/❌ |
+| 平衡合理？ | ✅/⚠️/❌ |
+| 依赖识别？ | ✅/⚠️/❌ |
+
+### D) 玩家体验
+
+**检查项**:
+| 检查项 | 状态 |
+|--------|------|
+| 玩家角色清晰？ | ✅/⚠️/❌ |
+| 奖励有意义？ | ✅/⚠️/❌ |
+| 进度令人满意？ | ✅/⚠️/❌ |
+| 有"juice"时刻？ | ✅/⚠️/❌ |
+
+**STOP**: Present findings, ask "要深入分析某个问题吗？"
+
+---
+
+## Phase 4: Categorize Findings
+
+**SEVERITY LEVELS**:
+
+| 级别 | 描述 | 行动 |
+|------|------|------|
+| 🔴 **关键** | 违反支柱、破坏游戏体验 | 必须修复 |
+| 🟡 **重要** | UX问题、平衡问题 | 应该修复 |
+| 🟢 **建议** | 改进机会 | 可考虑 |
+| 💡 **信息** | 最佳实践提示 | 了解即可 |
+
+---
+
+## Phase 5: Generate Report
 
 ```markdown
-## [Document Name] Review
+# 设计审查报告: [Topic]
 
-### Structure
-- [ ] Clear overview/introduction
-- [ ] Goals and pillars referenced
-- [ ] Mechanics clearly defined
-- [ ] Data/values specified
-- [ ] Edge cases addressed
-- [ ] Open questions tracked
+## 摘要
+[2-3句话总结]
 
-### Clarity
-- [ ] Can implementers understand it?
-- [ ] Are ambiguous terms defined?
-- [ ] Are examples provided?
-- [ ] Is it testable?
+## 支柱对齐
+| 元素 | 支柱 | 对齐 | 备注 |
+|------|------|------|------|
+| [功能] | [支柱] | ✅/⚠️/❌ | [备注] |
 
-### Completeness
-- [ ] All sections filled?
-- [ ] All referenced systems exist?
-- [ ] All dependencies noted?
+## 🔴 关键问题
+### [问题标题]
+- **相关**: [支柱/系统]
+- **问题**: [描述]
+- **影响**: [玩家体验影响]
+- **建议**: [如何修复]
+
+## 🟡 重要问题
+### [问题标题]
+- **问题**: [描述]
+- **建议**: [如何处理]
+
+## 🟢 建议
+- [改进建议]
+
+## ✅ 优点
+- [做得好的地方]
+
+## 行动项
+- [ ] [行动1]
+- [ ] [行动2]
 ```
 
-### 5. Categorize Findings
+**ASK**: "需要我帮助修改任何问题吗？"
 
-| Severity | Description | Action |
-|----------|-------------|--------|
-| 🔴 **Critical** | Pillar violation, game-breaking | Must address |
-| 🟡 **Important** | UX issues, balance problems | Should address |
-| 🟢 **Suggestion** | Enhancement opportunities | Consider |
-| 💡 **Info** | Best practice notes | For awareness |
+**STOP**: Wait for user's response.
 
-### 6. Generate Report
+---
 
-```markdown
-# Design Review: [Topic/Document]
+## Phase 6: Follow-Up
 
-## Summary
-[Overall assessment in 2-3 sentences]
+**IF user wants help**:
+- 针对具体问题提供修改建议
+- **ASK**: "要应用到文档吗？"
 
-## Pillar Alignment
-| Element | Pillar | Alignment | Notes |
-|---------|--------|-----------|-------|
-| [Feature] | [Pillar] | ✅/⚠️/❌ | [Notes] |
+**IF user wants tasks**:
+- 创建行动项列表
+- 可关联到sprint
 
-## Critical Issues 🔴
-### [Issue Title]
-**Related To**: [Pillar/System]
-**Problem**: [What's wrong]
-**Impact**: [Player experience impact]
-**Recommendation**: [How to fix]
+**STOP**: Review complete.
 
-## Important Issues 🟡
-### [Issue Title]
-**Related To**: [System]
-**Problem**: [What's wrong]
-**Recommendation**: [How to address]
+---
 
-## Suggestions 🟢
-### [Suggestion Title]
-**Area**: [System/Document]
-**Idea**: [Improvement suggestion]
+## Error Handling
 
-## Strengths ✅
-- [What's working well]
+| Error | Fallback |
+|-------|----------|
+| No design docs found | Say "没有找到设计文档，先运行 /brainstorm" |
+| Pillars unclear | Extract from concept, ask for confirmation |
+| User confused by frameworks | Skip framework, provide plain-language feedback |
+| Too many issues | Prioritize top 3, offer to review rest later |
 
-## Questions
-- [Clarifying question 1]
-- [Clarifying question 2]
+---
 
-## Action Items
-- [ ] [Item 1]
-- [ ] [Item 2]
-```
+## Quick Reference
 
-### 7. Follow-Up
+| 检查类型 | 关键问题 |
+|----------|----------|
+| 支柱对齐 | 这支持哪个支柱？ |
+| 玩家体验 | 玩家感受如何？ |
+| 机制清晰 | 规则易懂吗？ |
+| 范围现实 | 能按时完成吗？ |
 
-Ask:
-- "Want me to help revise any problematic areas?"
-- "Should I create tasks for the action items?"
-- "Need deeper analysis on any specific issue?"
+---
 
-## Review Frameworks
+## What This Skill Must NOT Do
 
-### MDA Analysis
-
-For each system:
-
-| Layer | Question | Finding |
-|-------|----------|---------|
-| **Mechanics** | What are the rules? | |
-| **Dynamics** | What emerges? | |
-| **Aesthetics** | What do players feel? | |
-
-### Core Loop Evaluation
-
-```
-┌─────────────────┐
-│  Action         │  ← Is it fun?
-└────────┬────────┘
-         ↓
-┌─────────────────┐
-│  Reward         │  ← Is it meaningful?
-└────────┬────────┘
-         ↓
-┌─────────────────┐
-│  Progression    │  ← Does it advance goals?
-└────────┬────────┘
-         ↓
-    [Loop repeats]  ← Is it sustainable?
-```
-
-### Player Type Coverage
-
-| Type | Served By | Assessment |
-|------|-----------|------------|
-| Achiever | | ✅/⚠️/❌ |
-| Explorer | | ✅/⚠️/❌ |
-| Socializer | | ✅/⚠️/❌ |
-| Killer | | ✅/⚠️/❌ |
-
-## Common Design Issues
-
-| Issue | Signs | Fix |
-|-------|-------|-----|
-| Scope creep | Features not in pillars | Cut or defer |
-| Dominant strategy | One best choice | Add trade-offs |
-| Power creep | New > old content | Rebalance |
-| Unclear feedback | Players confused | Add juice/UI |
-| Empty choices | All options same | Differentiate |
-| Punishing design | Players feel bad | Add mercy |
-
-## Collaborative Protocol
-
-1. **Reference pillars** — All feedback tied to vision
-2. **Focus on player** — What do they experience?
-3. **Be specific** — Concrete issues and solutions
-4. **Acknowledge strengths** — Not just problems
-5. **User decides** — Recommendations, not mandates
+- ❌ 自动修改设计文档
+- ❌ 做创意决策（那是 creative-director）
+- ❌ 改变范围（那是 producer）

@@ -8,51 +8,84 @@ license: MIT
 
 Configure Godot engine settings, project structure, and technical preferences.
 
-## Workflow
+---
 
-### 1. Parse Arguments
+## ⚠️ EXECUTION RULES
 
-- `/setup-engine` — Guided setup
-- `/setup-engine godot 4.3` — Specific version
+1. **ONE PHASE PER TURN** — Execute only one phase, then STOP
+2. **ASK BEFORE WRITING** — Never create files without approval
+3. **IF TOOL FAILS** — Use fallback values, don't abort
+4. **SHOW CHANGES** — Always show what will be created before writing
 
-### 2. Engine Selection (if guided)
+---
 
-If no engine specified:
+## Phase 1: Parse Arguments & Detect State
 
-1. Check for existing game concept in `design/gdd/game-concept.md`
-2. If no concept, ask about project needs:
-   - 2D, 3D, or both?
-   - Target platforms?
-   - Team size and experience?
-   - Language preferences?
-   - Budget constraints?
+**CHECK**:
+- Argument provided? (`/setup-engine godot 4.3`)
+- Existing config? Try read `.opencode/docs/technical-preferences.md`
+- Game concept? Try read `design/gdd/game-concept.md`
 
-3. Provide recommendation based on needs
+**IF version specified**: Jump to Phase 3
+**IF no version**: Proceed to Phase 2
 
-### Godot Decision Matrix
+**STOP**: Show detected state, ask "你想配置哪个Godot版本？" if not specified.
 
-| Factor | Godot 4 |
-|--------|---------|
-| **Best for** | 2D games, small-mid 3D, solo/small teams |
-| **Language** | GDScript (+ C#, C++ via GDExtension) |
-| **Cost** | Free, MIT license |
-| **Learning curve** | Gentle |
-| **2D support** | Excellent (native) |
-| **3D quality** | Good (improving rapidly) |
-| **Web export** | Yes (native) |
-| **Console export** | Via third-party |
-| **Open source** | Yes |
+---
 
-### 3. Version Selection
+## Phase 2: Engine & Version Selection
 
-If version not provided:
+### Engine Recommendation (if needed)
 
-1. Use WebSearch to find latest stable version
-2. Confirm with user: "Latest stable Godot is [version]. Use this?"
+| Project Type | Recommended |
+|--------------|-------------|
+| 2D game | Godot 4 |
+| 2D/3D mix | Godot 4 |
+| Solo/small team | Godot 4 |
 
-### 4. Update OPENCODE.md
+### Version Selection
 
-Update the Technology Stack section:
+**TRY** WebSearch for latest Godot 4 stable version.
+**IF WebSearch FAILS**: Use default "4.3" (safe fallback)
+
+**ASK**: "最新稳定版是 Godot [version]。使用这个版本？(Y/n)"
+
+**STOP**: Wait for user confirmation.
+
+---
+
+## Phase 3: Show Changes Preview
+
+Present EXACTLY what will be created/modified:
+
+```
+将要创建/修改的文件：
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. OPENCODE.md
+   - 更新 Technology Stack 部分
+   
+2. .opencode/docs/technical-preferences.md
+   - 创建编码规范和性能预算
+   
+3. .opencode/docs/engine-reference/godot/VERSION.md
+   - 创建版本引用文档
+   
+4. 项目目录结构：
+   src/    assets/    design/    tests/    prototypes/    production/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**ASK**: "确认创建这些文件？(Y/n)"
+
+**STOP**: Wait for user approval.
+
+---
+
+## Phase 4: Update OPENCODE.md
+
+**READ** current OPENCODE.md first.
+
+**UPDATE** the Technology Stack section:
 
 ```markdown
 ## Technology Stack
@@ -64,9 +97,17 @@ Update the Technology Stack section:
 - **Asset Pipeline**: Godot Import System + custom resource pipeline
 ```
 
-### 5. Create Technical Preferences
+**SHOW**: The exact diff/change before writing.
 
-Create `.opencode/docs/technical-preferences.md`:
+**ASK**: "这个修改可以吗？"
+
+**STOP**: Wait for approval, then write.
+
+---
+
+## Phase 5: Create Technical Preferences
+
+**CREATE** `.opencode/docs/technical-preferences.md`:
 
 ```markdown
 # Technical Preferences
@@ -107,9 +148,15 @@ Create `.opencode/docs/technical-preferences.md`:
 - [ ] Connecting signals in `_process()`
 ```
 
-### 6. Create Engine Reference
+**SHOW**: Full content, ask for approval.
 
-Create `.opencode/docs/engine-reference/godot/VERSION.md`:
+**STOP**: Wait for approval, then write.
+
+---
+
+## Phase 6: Create Engine Reference
+
+**CREATE** `.opencode/docs/engine-reference/godot/VERSION.md`:
 
 ```markdown
 # Godot Version Reference
@@ -126,15 +173,15 @@ Create `.opencode/docs/engine-reference/godot/VERSION.md`:
 - Improved 3D rendering
 - Vulkan support
 - Native 2D engine
-
-## Notes
-
-[Version-specific notes based on current release]
 ```
 
-### 7. Create Project Structure
+**WRITE** without asking (this is informational only).
 
-Create standard directories:
+---
+
+## Phase 7: Create Project Structure
+
+**CREATE** directories (if not exist):
 
 ```
 src/
@@ -159,64 +206,55 @@ prototypes/
 production/
 ```
 
-### 8. Output Summary
+**SHOW**: "创建目录结构..."
+
+---
+
+## Phase 8: Output Summary
+
+**PRINT**:
 
 ```
-Engine Setup Complete
-=====================
+✅ 引擎配置完成
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Engine:          Godot [version]
-OPENCODE.md:     Updated
-Tech Prefs:      Created
-Reference Docs:  Created
-Project Structure: Created
+OPENCODE.md:     ✅ 已更新
+Tech Prefs:      ✅ 已创建
+Reference Docs:  ✅ 已创建
+Project Structure: ✅ 已创建
 
-Next Steps:
-1. Review .opencode/docs/technical-preferences.md
-2. Run /brainstorm if no game concept
-3. Design core systems
-4. /sprint-plan to organize work
+下一步建议：
+1. 查看 .opencode/docs/technical-preferences.md
+2. 运行 /brainstorm 如果还没有游戏概念
+3. 设计核心系统
+4. 运行 /sprint-plan 来组织工作
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-## Godot-Specific Setup
+**STOP**: Skill complete. Offer next steps.
 
-### Project Settings Recommendations
+---
 
-```gdscript
-# Recommended project settings
+## Error Handling
 
-# Rendering
-rendering/renderer/rendering_method="forward_plus"  # For 3D
-# or "gl_compatibility" for broader support
+| Error | Fallback |
+|-------|----------|
+| WebSearch fails | Use "4.3" as safe default |
+| Cannot read OPENCODE.md | Create new one from template |
+| Directory creation fails | Ask user to create manually |
+| User declines changes | Abort gracefully, ask what to do instead |
 
-# Input
-# Add input map entries for common actions:
-# - move_up, move_down, move_left, move_right
-# - jump, attack, interact, pause
+---
 
-# Layer Names
-# Configure physics and render layers for your game
+## Quick Reference
 
-# Autoloads
-# Add only when truly needed:
-# - EventBus (global signals)
-# - GameManager (state management)
-# - SaveManager (persistence)
-```
-
-### Initial Autoload Template
-
-```gdscript
-# event_bus.gd
-extends Node
-
-# Global signals for cross-system communication
-signal game_paused
-signal game_resumed
-signal scene_changed(scene_name: String)
-```
-
-## Collaborative Protocol
-
-1. **Ask before creating** — Show what will be created
-2. **Use defaults** — Apply sensible defaults, allow customization
-3. **Document decisions** — Record why choices were made
+| Phase | Action | Approval Needed? |
+|-------|--------|------------------|
+| 1 | Detect state | No |
+| 2 | Select version | Yes |
+| 3 | Preview changes | Yes |
+| 4 | Update OPENCODE.md | Yes |
+| 5 | Create tech prefs | Yes |
+| 6 | Create engine ref | No |
+| 7 | Create directories | No |
+| 8 | Summary | No |

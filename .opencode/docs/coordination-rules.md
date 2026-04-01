@@ -1,134 +1,244 @@
 # Coordination Rules
 
-This document defines how agents and skills coordinate and delegate work.
+本文件定义skill之间的协调和委托规则。
 
-## Delegation Hierarchy
+---
+
+## 目标用户
+
+**Team Lead (小队队长)**
+- 2-3人小队的技术负责人 + 项目管理者
+- 需要同时管理技术、美术协调和进度
+- 实用优先，不追求企业级流程
+
+---
+
+## 协作层级
 
 ```
-User (Final Decision Maker)
+用户 (最终决策者)
     │
-    ├── creative-director (Creative Vision)
-    │       ├── game-designer
-    │       │       └── systems-designer, level-designer, economy-designer
-    │       └── narrative-director
-    │               └── writer, world-builder
+    ├── 领导核心 (队长日常)
+    │       ├── start (入口路由)
+    │       ├── producer (进度/范围)
+    │       └── technical-director (技术决策)
     │
-    ├── technical-director (Technical Vision)
-    │       ├── lead-programmer
-    │       │       ├── gameplay-programmer
-    │       │       ├── engine-programmer
-    │       │       ├── ai-programmer
-    │       │       ├── network-programmer
-    │       │       └── ui-programmer
-    │       └── godot-specialist
-    │               ├── godot-gdscript
-    │               ├── godot-shader
-    │               └── godot-gdextension
+    ├── 执行支持 (日常工作)
+    │       ├── godot-specialist (技术指导)
+    │       ├── sprint-plan (进度规划)
+    │       ├── art-coordinator (美术协调)
+    │       └── prototype-mode (快速验证)
     │
-    └── producer (Production Management)
-            ├── qa-lead
-            │       └── qa-tester
-            └── release-manager
+    ├── 设计支持 (创意工作)
+    │       ├── brainstorm (概念探索)
+    │       ├── game-designer (系统设计)
+    │       └── design-review (设计验证)
+    │
+    └── 深度技术 (特定领域)
+            ├── godot-gdscript (代码模式)
+            ├── godot-shader (渲染特效)
+            ├── godot-gdextension (原生扩展)
+            └── code-review (代码质量)
 ```
 
-## Decision Authority
+---
 
-| Decision Type | Authority |
-|---------------|-----------|
-| Creative direction | creative-director → User |
-| Technical architecture | technical-director → User |
-| Scope/schedule | producer → User |
-| Implementation details | Lead specialists |
-| Code style | lead-programmer |
+## 决策权限
 
-## Conflict Resolution
+| 决策类型 | 决策者 | 咨询 |
+|----------|--------|------|
+| 创意方向 | 用户 | creative-director |
+| 技术架构 | 用户 (Team Lead) | technical-director |
+| 范围/进度 | 用户 (Team Lead) | producer |
+| 美术规格 | 用户 + 美术 | art-coordinator |
+| 代码风格 | Team Lead | godot-gdscript |
+| 原型范围 | Team Lead | prototype-mode |
 
-### Design Conflicts
+---
 
-1. **Identify conflict** — What's the actual disagreement?
-2. **Map to pillars** — Which pillars does each option serve?
-3. **Escalate** — creative-director evaluates
-4. **User decides** — Final authority
+## Skill 调用指南
 
-### Technical Conflicts
+### Team Lead 工作流 (队长视角)
 
-1. **Identify conflict** — What's incompatible?
-2. **Evaluate options** — Trade-offs for each approach
-3. **Escalate** — technical-director evaluates
-4. **User decides** — Final authority
+| 场景 | 使用Skill | 输出 |
+|------|-----------|------|
+| 开始新项目 | `/start` | 路由 + 团队检测 |
+| 探索游戏概念 | `/brainstorm` | game-concept.md |
+| 配置引擎 | `/setup-engine` | 技术配置 |
+| 规划Sprint | `/sprint-plan` | sprint文档 |
+| 查看进度 | `/producer` | 状态报告 |
+| 技术决策 | `/technical-director` | ADR文档 |
+| 美术协调 | `/art-coordinator` | 资产请求/同步 |
+| 快速验证 | `/prototype-mode` | 原型指南 |
 
-### Scope Conflicts
+### 技术工作流
 
-1. **Identify conflict** — Capacity vs. scope
-2. **Present options** — Cut, reduce, or extend timeline
-3. **Escalate** — producer evaluates
-4. **User decides** — Final authority
+| 场景 | 使用Skill | 输出 |
+|------|-----------|------|
+| 架构决策 | `/technical-director` | ADR文档 |
+| 引擎问题 | `/godot-specialist` | 指导建议 |
+| GDScript模式 | `/godot-gdscript` | 代码模式 |
+| Shader开发 | `/godot-shader` | Shader指导 |
+| 原生扩展 | `/godot-gdextension` | 扩展指导 |
+| 代码审查 | `/code-review` | 审查报告 |
 
-## Communication Protocols
+### 美术协调工作流 (NEW)
 
-### Cross-Team Requests
+| 场景 | 使用Skill | 输出 |
+|------|-----------|------|
+| 创建资产请求 | `/art-coordinator` | 规格文档 |
+| 检查命名规范 | `/art-coordinator` | 检查报告 |
+| 导入设置 | `/art-coordinator` | 配置指南 |
+| 同步进度 | `/art-coordinator` | 同步报告 |
+
+---
+
+## 冲突解决
+
+### 设计冲突
+
+1. **识别冲突** — 具体分歧是什么？
+2. **映射到支柱** — 每个选项支持哪个支柱？
+3. **咨询** → creative-director 评估
+4. **用户决定** — 最终决策权
+
+### 技术冲突
+
+1. **识别冲突** — 什么不兼容？
+2. **评估选项** — 每个方法的权衡
+3. **咨询** → technical-director 评估
+4. **用户决定** — 最终决策权
+
+### 范围冲突
+
+1. **识别冲突** — 容量 vs 范围
+2. **提供选项** — 削减、简化、延期
+3. **咨询** → producer 评估
+4. **用户决定** — 最终决策权
+
+---
+
+## 委托规则
+
+### 何时委托
+
+| 从 | 委托到 | 原因 |
+|----|--------|------|
+| producer | technical-director | 技术可行性评估 |
+| producer | art-coordinator | 美术资源协调 |
+| game-designer | technical-director | 设计可行性检查 |
+| technical-director | godot-specialist | 引擎特定问题 |
+| technical-director | prototype-mode | 快速验证方案 |
+| art-coordinator | producer | 资产进度同步 |
+
+### 委托格式
 
 ```markdown
-**From**: [Requesting team]
-**To**: [Target team]
-**Request**: [What's needed]
-**Why**: [Context/reason]
-**When**: [Timeline]
-**Dependencies**: [Any blockers]
+**从**: [来源skill]
+**到**: [目标skill]
+**问题**: [具体问题]
+**背景**: [相关上下文]
+**需要**: [期望输出]
 ```
 
-### Status Updates
+---
 
-```markdown
-**Status**: On Track / At Risk / Blocked
-**Progress**: [What's done]
-**Next**: [What's next]
-**Blockers**: [What's stuck]
-**Help Needed**: [What support is needed]
+## 域边界
+
+Skill不应修改其域外的文件，除非明确协调：
+
+| 域 | 文件路径 | 主要负责Skill |
+|----|----------|---------------|
+| 游戏逻辑 | `src/gameplay/**` | game-designer + programmers |
+| 核心系统 | `src/core/**` | technical-director |
+| UI | `src/ui/**` | UI developers |
+| 美术资产 | `assets/**` | art-coordinator + artist |
+| 设计文档 | `design/gdd/**` | creative-director + game-designer |
+| 生产文档 | `production/**` | producer + sprint-plan |
+| 原型 | `prototypes/**` | prototype-mode |
+| 测试 | `tests/**` | QA / programmers |
+
+跨域修改需要:
+1. 识别受影响的域
+2. 通知域负责人
+3. 协调实现
+4. 集成测试
+
+---
+
+## 典型工作流
+
+### 新项目启动
+
+```
+/start → 检测团队结构
+    ↓
+/brainstorm → game-concept.md
+    ↓
+/setup-engine → 技术配置
+    ↓
+/sprint-plan → Sprint 1 (含美术估算)
+    ↓
+[开发工作...]
 ```
 
-## Skill Invocation Guidelines
+### Team Lead 周循环
 
-### When to Use Each Skill
+```
+周一: /sprint-plan review → 进度检查
+周三: /art-coordinator → 美术同步  
+周五: /producer → 周总结
+```
 
-| Skill | Use When |
-|-------|----------|
-| `creative-director` | Vision questions, pillar conflicts |
-| `technical-director` | Architecture decisions, tech choices |
-| `producer` | Planning, scope, progress |
-| `game-designer` | Mechanics, systems, balance |
-| `lead-programmer` | Code architecture, review |
-| `godot-specialist` | Engine-specific questions |
-| `godot-gdscript` | GDScript patterns, optimization |
-| `godot-shader` | Shaders, VFX, rendering |
-| `godot-gdextension` | Native code, performance |
+### 新功能开发
 
-### Workflow Skills
+```
+/design-review → 验证设计
+    ↓
+/art-coordinator → 请求美术资产
+    ↓
+/prototype-mode → 快速验证 (可选)
+    ↓
+/technical-director → 架构检查
+    ↓
+/godot-specialist → 实现指导
+    ↓
+/code-review → 质量检查
+```
 
-| Skill | Use When |
-|-------|----------|
-| `start` | New session, new user |
-| `brainstorm` | No concept, exploring ideas |
-| `setup-engine` | Configuring Godot |
-| `sprint-plan` | Planning work |
-| `code-review` | Reviewing code quality |
-| `design-review` | Reviewing design documents |
+### 美术协调流程
 
-## Domain Boundaries
+```
+/art-coordinator → 创建资产请求
+    ↓
+[美术制作...]
+    ↓
+/art-coordinator → 检查命名 + 导入设置
+    ↓
+[程序使用...]
+```
 
-Agents should NOT modify files outside their domain without explicit coordination:
+---
 
-| Domain | Files |
-|--------|-------|
-| Gameplay | `src/gameplay/**` |
-| Core | `src/core/**` |
-| UI | `src/ui/**` |
-| Systems | `src/systems/**` |
-| Design | `design/**` |
-| Tests | `tests/**` |
+## 文档模板位置
 
-Cross-domain changes require:
-1. Identify affected domains
-2. Notify domain owners
-3. Coordinate implementation
-4. Test integration
+| 模板 | 路径 | 用途 |
+|------|------|------|
+| 架构决策记录 | `.opencode/docs/templates/adr-template.md` | ADR |
+| Sprint计划 | `.opencode/docs/templates/sprint-template.md` | Sprint |
+| 功能规格 | `.opencode/docs/templates/feature-spec-template.md` | 功能规格 |
+| 里程碑报告 | `.opencode/docs/templates/milestone-report-template.md` | 进度报告 |
+| 美术请求 | `.opencode/docs/templates/art-request-template.md` | 资产规格 |
+| 技术规格 | `.opencode/docs/templates/technical-spec-template.md` | 实现计划 |
+
+---
+
+## Skill 总览 (17个)
+
+| 分类 | Skills | PM相关性 |
+|------|--------|----------|
+| **领导核心** | start, producer, technical-director | 🔴 HIGH |
+| **执行支持** | godot-specialist, sprint-plan, art-coordinator, prototype-mode | 🔴 HIGH |
+| **设计支持** | brainstorm, game-designer, design-review | 🟡 MEDIUM |
+| **深度技术** | godot-gdscript, godot-shader, godot-gdextension, code-review | 🟡 MEDIUM |
+| **顾问角色** | creative-director, lead-programmer | 🟢 ADVISORY |
