@@ -133,6 +133,103 @@ When deep expertise is needed, delegate to sub-skills:
 - Need native code integration
 - Heavy math computations
 
+## MCP Tool Integration
+
+### Available MCP Tools (suggest to user when appropriate)
+
+| MCP Server | Use Case | Suggest When |
+|------------|----------|--------------|
+| **Godot MCP** | Run Godot headless, test scenes, debug | After scene creation, testing needed |
+| **Image Gen MCP** | Generate textures, icons, sprites | Asset placeholders needed |
+| **Blender MCP** | Export models, animations | 3D assets needed |
+
+### Suggestion Pattern
+
+When appropriate, include in response:
+
+```
+💡 Tip: You can use the Godot MCP server to:
+- Run this scene headlessly: `godot_run_scene("res://scenes/player.tscn")`
+- Check for errors: `godot_check_project()`
+
+For assets, the Image Gen MCP can generate placeholder sprites.
+```
+
+### When to Suggest
+
+- After creating a scene file → suggest Godot MCP testing
+- When UI needs icons → suggest Image Gen MCP
+- When 3D models needed → suggest Blender MCP
+
+## Scene Assembly Protocol (NEW - replaces tscn generation)
+
+### ⚠️ NEVER generate .tscn files directly
+
+LLM-generated scene files are prone to:
+- Invalid node paths
+- Wrong resource UID references
+- Property type mismatches
+
+### Instead: Provide Assembly Guide
+
+**After generating script, output:**
+
+```markdown
+## Scene Assembly Instructions
+
+### Node Tree
+```
+[RootNode] (type)
+├── [Child1] (type) — purpose
+├── [Child2] (type) — purpose
+│   └── [SubChild] (type) — purpose
+└── [Child3] (type) — purpose
+```
+
+### Required Components
+| Node | Required Properties | Scripts |
+|------|--------------------|---------|
+| Player | position: (100, 200) | player_controller.gd |
+| HealthBar | value: 100, min: 0, max: 100 | health_bar.gd |
+
+### Assembly Steps
+1. Create root node: Add Node → [NodeType]
+2. Attach script: Drag `player_controller.gd` to Player node
+3. Add child HealthBar: Add Node → ProgressBar → set properties
+4. Enable Unique Names: Right-click → Access as Unique Name (%HealthBar)
+
+### 💡 Tip: Use Godot MCP to test after assembly
+```
+
+**ASK**: "I've created the scripts. Follow the assembly guide in Godot editor. Need help?"
+
+## Completion Recommendations (NEW)
+
+### After Implementation Complete
+
+**Step 1: Quick LSP Check**
+
+**TRY**: `lsp_diagnostics` on modified files
+
+**IF errors found**:
+```
+⚠️ LSP detected [N] issues. Fix before review.
+Run `/code-review` after fixing.
+```
+
+**Step 2: Suggest Next Skills**
+
+Based on what was implemented:
+
+| Implementation Type | Recommended Next Steps |
+|---------------------|------------------------|
+| Core gameplay code | `/code-review` → Review quality |
+| UI code | `/design-review --system UI` → UX validation |
+| Performance-critical | Profile in Godot editor first |
+| New system | `/technical-director` → Architecture check |
+
+**ASK**: "Would you like to run `/code-review` on these changes?"
+
 ## Version Awareness
 
 Before suggesting engine APIs:

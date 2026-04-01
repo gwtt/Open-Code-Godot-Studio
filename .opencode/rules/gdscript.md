@@ -163,6 +163,49 @@ class GameManager extends Node
 # 500 lines of unrelated functionality
 ```
 
+## Thread Safety & call_deferred
+
+### When to Use call_deferred
+
+| Scenario | Use call_deferred? | Reason |
+|----------|-------------------|--------|
+| Modifying scene tree from signal | ✅ YES | Signals may fire during physics |
+| Removing nodes in collision callback | ✅ YES | Physics thread active |
+| Adding children from Thread | ✅ YES | Main thread owns scene tree |
+| Normal gameplay logic | ❌ NO | Overhead, not needed |
+| _ready() modifications | ❌ NO | Already in main thread |
+
+### Pattern
+
+```gdscript
+# ✅ Correct - defer scene tree modifications from physics
+func _on_body_entered(body: Node2D) -> void:
+    body.queue_free()  # Safe - deferred internally
+    call_deferred("spawn_explosion", body.position)
+
+func spawn_explosion(pos: Vector2) -> void:
+    var explosion: Node2D = explosion_scene.instantiate()
+    explosion.position = pos
+    add_child(explosion)  # Now on main thread
+
+# ❌ Wrong - direct scene tree modification from physics callback
+func _on_body_entered(body: Node2D) -> void:
+    add_child(explosion_scene.instantiate())  # May crash!
+```
+
+### Signal Emission from Threads
+
+```gdscript
+# ✅ Correct - deferred signal emission
+Thread.new().start(func():
+    call_deferred("emit_signal", "data_loaded", result)
+)
+
+# ❌ Wrong - direct emission from thread
+Thread.new().start(func():
+    emit_signal("data_loaded", result)  # Unsafe!
+```
+
 ## Rationale
 
 Static typing provides:

@@ -53,6 +53,42 @@ Based on user's answer, explore **ONE** of these areas (user's choice):
 
 ---
 
+## Phase 2.5: Game-Type Questionnaire (NEW)
+
+**IF game type identified** (from Phase 1 or 2), load corresponding questionnaire:
+
+| Game Type | Questionnaire File |
+|-----------|-------------------|
+| Tower Defense | `.opencode/docs/questionnaires/tower-defense.md` |
+| Roguelike / Roguelite | `.opencode/docs/questionnaires/roguelike.md` |
+| ARPG / Action RPG | `.opencode/docs/questionnaires/arpg.md` |
+| Platformer | `.opencode/docs/questionnaires/platformer.md` |
+| Puzzle | `.opencode/docs/questionnaires/puzzle.md` |
+
+**ASK**: "I detected this is a [game type]. Let me ask some specific questions for this type..."
+
+**READ**: Load questionnaire file based on detected game type
+
+**STOP**: Complete questionnaire questions, then proceed to Phase 3.
+
+**IF game type unclear or mixed**:
+- **ASK**: "Your concept involves multiple genres. Which is the primary focus?"
+- Proceed with primary type's questionnaire, note secondary influences
+
+### How to Detect Game Type
+
+Keywords to watch for:
+
+| Type | Keywords |
+|------|----------|
+| Tower Defense | "tower", "waves", "defense", "strategic placement" |
+| Roguelike | "permadeath", "procedural", "run-based", "meta progression" |
+| ARPG | "action combat", "skills", "equipment", "real-time" |
+| Platformer | "jump", "platforms", "gravity", "side-scrolling" |
+| Puzzle | "solve", "logic", "match", "brain teaser" |
+
+---
+
 ## Phase 3: Structure the Concept
 
 Use **ONE** framework to organize (ask user which):

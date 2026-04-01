@@ -41,3 +41,14 @@ with the "Use Instead" column.
 | `Texture2D` in shader parameters | `Texture` base type | Changed in 4.4 |
 | Manual post-process viewport chains | `Compositor` + `CompositorEffect` | Structured post-processing (4.3+) |
 | GodotPhysics3D for new projects | Jolt Physics 3D | Default since 4.6; better stability |
+
+## Threading Patterns
+
+| Pattern | Guidance |
+|---------|----------|
+| Scene tree modification from Thread | Use `call_deferred()` |
+| Direct `add_child()` from Thread | ❌ Unsafe - crashes |
+| `queue_free()` in physics callback | ✅ Safe - internally deferred |
+| Signal emission from Thread | Use `call_deferred("emit_signal", ...)` |
+| `await` in Thread | ✅ Safe - handles thread switching |
+| Direct node property access from Thread | ⚠️ Caution - use `call_deferred` for scene tree ops |

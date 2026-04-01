@@ -197,6 +197,69 @@ Disable when not needed. Re-enable only when node has work.
 - ❌ God-class Autoloads
 - ❌ Editor signal connections (invisible in code)
 
+## Scene Assembly Protocol (NEW - replaces tscn generation)
+
+### ⚠️ NEVER generate .tscn files directly
+
+LLM-generated scene files are prone to errors:
+- Invalid node paths
+- Wrong resource UID references
+- Property type mismatches
+
+### Instead: Provide Assembly Guide
+
+**After generating GDScript, output:**
+
+```markdown
+## Scene Assembly Instructions
+
+### Node Tree
+```
+[RootNode] (type)
+├── [Child1] (type) — purpose
+├── [Child2] (type) — purpose
+│   └── [SubChild] (type) — purpose
+```
+
+### Required Components
+| Node | Properties | Script |
+|------|------------|--------|
+| Player | position: (100, 200) | player_controller.gd |
+
+### Assembly Steps
+1. Create root: Add Node → [NodeType]
+2. Attach script: Drag file to node
+3. Add children: Add Node → set properties
+4. Enable Unique Names: Right-click → Access as Unique Name
+```
+
+**ASK**: "Scripts created. Follow assembly guide in editor?"
+
+## Completion Recommendations (NEW)
+
+### After GDScript Implementation
+
+**Step 1: Quick LSP Check**
+
+**TRY**: `lsp_diagnostics` on modified .gd files
+
+**IF errors found**:
+```
+⚠️ LSP detected [N] issues. Fix before review.
+Run `/code-review` after fixing.
+```
+
+**Step 2: Suggest Next Steps**
+
+| Implementation Type | Recommended Next Steps |
+|---------------------|------------------------|
+| Core gameplay code | `/code-review` → Review quality |
+| UI code | `/design-review --system UI` → UX validation |
+| Performance-critical | Profile in Godot editor first |
+| New system | `/technical-director` → Architecture check |
+
+**ASK**: "Would you like to run `/code-review` on these changes?"
+
 ## Version Awareness
 
 1. Read `.opencode/docs/engine-reference/godot/VERSION.md`
