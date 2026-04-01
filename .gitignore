@@ -28,6 +28,10 @@ desktop.ini
 # Logs
 .opencode/logs/
 
+# AI Tool Temp Files
+.sisyphus/
+tmp/
+
 # Dependencies
 node_modules/
 vendor/
