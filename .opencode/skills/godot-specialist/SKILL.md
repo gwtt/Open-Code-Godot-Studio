@@ -96,17 +96,42 @@ Before writing any code:
 When deep expertise is needed, delegate to sub-skills:
 
 - **godot-gdscript** — GDScript architecture, patterns, optimization
+- **godot-csharp** — C# patterns, .NET integration, async/await
 - **godot-shader** — Godot shading language, visual shaders, particles
 - **godot-gdextension** — C++/Rust native bindings
 
 ## Language Decision Matrix
 
-| Feature Type | Recommended |
-|--------------|-------------|
-| Game logic, UI, state | GDScript |
-| Heavy math, pathfinding | GDExtension (C++/Rust) |
-| Cross-platform .NET libs | C# |
-| Performance-critical (>1000 calls/frame) | GDExtension |
+| Feature Type | GDScript | C# | GDExtension |
+|--------------|----------|-----|--------------|
+| Game logic | ✅ Best | ✅ Good | ⚠️ Overkill |
+| UI | ✅ Best | ✅ Good | ❌ |
+| Rapid prototyping | ✅ Best | ✅ Good | ❌ |
+| .NET libraries | ❌ | ✅ Best | ⚠️ |
+| Heavy math (pathfinding) | ⚠️ | ✅ Good | ✅ Best |
+| Performance-critical | ⚠️ | ✅ Good | ✅ Best |
+| Multi-threading | ⚠️ | ✅ Best | ✅ Best |
+| Existing C# experience | ⚠️ | ✅ Best | ⚠️ |
+
+### Language Selection Guide
+
+**Choose GDScript if:**
+- Rapid prototyping and iteration
+- Learning Godot for the first time
+- Small to medium project
+- Prefer lightweight syntax
+
+**Choose C# if:**
+- Need .NET ecosystem (JSON, HTTP, etc.)
+- Existing C# experience
+- Complex data processing
+- Multi-threading requirements
+- Large codebase
+
+**Choose GDExtension if:**
+- Performance-critical (>1000 calls/frame)
+- Need native code integration
+- Heavy math computations
 
 ## Version Awareness
 

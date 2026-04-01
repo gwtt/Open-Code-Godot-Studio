@@ -1,6 +1,6 @@
 # Skills 完整指南
 
-> 所有 17 个技能的详细说明和使用指南
+> 所有 18 个技能的详细说明和使用指南
 
 ---
 
@@ -11,7 +11,7 @@
 | **领导核心** | `start`, `producer`, `technical-director` |
 | **执行支持** | `godot-specialist`, `sprint-plan`, `art-coordinator`, `prototype-mode` |
 | **设计支持** | `brainstorm`, `game-designer`, `design-review` |
-| **深度技术** | `godot-gdscript`, `godot-shader`, `godot-gdextension`, `code-review` |
+| **深度技术** | `godot-gdscript`, `godot-csharp`, `godot-shader`, `godot-gdextension`, `code-review` |
 | **顾问角色** | `creative-director`, `lead-programmer` |
 | **其他** | `setup-engine` |
 
@@ -317,6 +317,44 @@ var health = 100
 func take_damage(amount):
     pass
 ```
+
+---
+
+### `/godot-csharp`
+
+**用途**: Godot C# 开发和 .NET 集成
+
+**调用方式**:
+```
+/godot-csharp [问题]
+```
+
+**功能**:
+- C# 命名规范
+- Godot C# API 模式
+- async/await 异步编程
+- 信号与事件
+- .NET 库集成
+
+**代码规范**:
+```csharp
+// ✅ 正确
+public float Health { get; set; } = 100f;
+public void TakeDamage(float amount) { }
+
+[Signal]
+public delegate void HealthChangedEventHandler(float newHealth);
+
+// ❌ 错误
+var health = 100f;  // 隐式类型
+Console.WriteLine("...");  // 应用 GD.Print()
+```
+
+**适合场景**:
+- 需要 .NET 生态系统
+- 复杂数据处理
+- 多线程需求
+- 外部 C# 库集成
 
 ---
 

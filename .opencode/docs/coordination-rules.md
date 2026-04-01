@@ -35,11 +35,40 @@
     │       └── design-review (设计验证)
     │
     └── 深度技术 (特定领域)
-            ├── godot-gdscript (代码模式)
+            ├── godot-gdscript (GDScript模式)
+            ├── godot-csharp (C#模式)
             ├── godot-shader (渲染特效)
             ├── godot-gdextension (原生扩展)
             └── code-review (代码质量)
 ```
+
+---
+
+## 语言选择决策
+
+### 项目初始化时选择
+
+在 `/setup-engine` 时确定：
+- **GDScript 为主** — 快速迭代、游戏逻辑
+- **C# 为主** — .NET 生态、数据处理
+- **双语言** — 灵活组合
+
+### 任务实现时选择
+
+在 `/sprint-plan` 任务分解时：
+- 每个任务可指定语言
+- 双语言项目可临时选择
+
+### 语言选择指南
+
+| 场景 | 推荐 |
+|------|------|
+| 游戏逻辑 | GDScript |
+| UI组件 | GDScript 或 C# |
+| 数据处理 | C# |
+| .NET库集成 | C# |
+| 快速原型 | GDScript |
+| 性能关键 | C# 或 GDExtension |
 
 ---
 
@@ -199,11 +228,31 @@ Skill不应修改其域外的文件，除非明确协调：
     ↓
 /prototype-mode → 快速验证 (可选)
     ↓
+[选择语言: GDScript 或 C#]
+    ↓
 /technical-director → 架构检查
     ↓
-/godot-specialist → 实现指导
+/godot-gdscript 或 /godot-csharp → 实现指导
     ↓
 /code-review → 质量检查
+```
+
+### 语言选择流程 (双语言项目)
+
+```
+任务分解时:
+    │
+    ├── 游戏逻辑? → GDScript
+    │
+    ├── UI组件? → GDScript 或 C#
+    │
+    ├── 数据处理? → C#
+    │
+    ├── .NET库? → C#
+    │
+    ├── 快速原型? → GDScript
+    │
+    └── 性能关键? → C# 或 GDExtension
 ```
 
 ### 美术协调流程
@@ -233,12 +282,12 @@ Skill不应修改其域外的文件，除非明确协调：
 
 ---
 
-## Skill 总览 (17个)
+## Skill 总览 (18个)
 
 | 分类 | Skills | PM相关性 |
 |------|--------|----------|
 | **领导核心** | start, producer, technical-director | 🔴 HIGH |
 | **执行支持** | godot-specialist, sprint-plan, art-coordinator, prototype-mode | 🔴 HIGH |
 | **设计支持** | brainstorm, game-designer, design-review | 🟡 MEDIUM |
-| **深度技术** | godot-gdscript, godot-shader, godot-gdextension, code-review | 🟡 MEDIUM |
+| **深度技术** | godot-gdscript, godot-csharp, godot-shader, godot-gdextension, code-review | 🟡 MEDIUM |
 | **顾问角色** | creative-director, lead-programmer | 🟢 ADVISORY |

@@ -2,6 +2,8 @@
 
 AI-powered game development framework for Godot 4.6.1.
 
+**Supports both GDScript and C#** - use either language or mix both in the same project.
+
 [中文文档](./README_CN.md) | English
 
 ---
@@ -54,7 +56,7 @@ System detects your state and guides you.
 | **Leadership Core** | `start`, `producer`, `technical-director` |
 | **Execution Support** | `godot-specialist`, `sprint-plan`, `art-coordinator`, `prototype-mode` |
 | **Design Support** | `brainstorm`, `game-designer`, `design-review` |
-| **Deep Technical** | `godot-gdscript`, `godot-shader`, `godot-gdextension`, `code-review` |
+| **Deep Technical** | `godot-gdscript`, `godot-csharp`, `godot-shader`, `godot-gdextension`, `code-review` |
 | **Advisory** | `creative-director`, `lead-programmer` |
 
 > See [docs/SKILLS.md](docs/SKILLS.md) for detailed descriptions.
@@ -103,11 +105,16 @@ Friday:   /producer → Week summary
 
 ## Features
 
-### Skills (17 total)
-- Godot-specific: `godot-specialist`, `godot-gdscript`, `godot-shader`, `godot-gdextension`
+### Skills (18 total)
+- Godot-specific: `godot-specialist`, `godot-gdscript`, `godot-csharp`, `godot-shader`, `godot-gdextension`
 - Game dev core: `creative-director`, `technical-director`, `producer`, `game-designer`, `lead-programmer`
 - Workflows: `start`, `brainstorm`, `setup-engine`, `sprint-plan`, `code-review`, `design-review`
 - New: `art-coordinator`, `prototype-mode`
+
+### Dual Language Support
+- **GDScript**: Native Godot scripting, rapid iteration
+- **C#**: .NET ecosystem, complex data processing
+- **Mix both**: Use the right tool for each system
 
 ### Hooks (4)
 - Session start/stop — Context loading

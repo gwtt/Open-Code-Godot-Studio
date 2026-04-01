@@ -7,7 +7,8 @@ AI agent context for Godot 4.6.1 game development.
 ## Technology Stack
 
 - **Engine**: Godot 4.6.1
-- **Language**: GDScript (primary), C# (optional), C++/Rust via GDExtension
+- **Languages**: GDScript + C# (dual support)
+- **Performance**: GDExtension (C++/Rust) when needed
 - **Version Control**: Git
 
 ---
@@ -34,7 +35,7 @@ tests/        → Test suites
 
 ---
 
-## Available Skills (17)
+## Available Skills (18)
 
 ### 领导核心
 `start` `producer` `technical-director`
@@ -46,7 +47,7 @@ tests/        → Test suites
 `brainstorm` `game-designer` `design-review`
 
 ### 深度技术
-`godot-gdscript` `godot-shader` `godot-gdextension` `code-review`
+`godot-gdscript` `godot-csharp` `godot-shader` `godot-gdextension` `code-review`
 
 ### 其他
 `setup-engine` `creative-director` `lead-programmer`

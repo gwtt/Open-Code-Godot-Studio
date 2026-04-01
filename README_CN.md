@@ -2,6 +2,8 @@
 
 AI 驱动的 Godot 4.6.1 游戏开发框架。
 
+**同时支持 GDScript 和 C#** - 可以单独使用一种语言，或在同一项目中混合使用。
+
 [English](./README.md) | 中文文档
 
 ---
@@ -54,7 +56,7 @@ AI 驱动的 Godot 4.6.1 游戏开发框架。
 | **领导核心** | `start`, `producer`, `technical-director` |
 | **执行支持** | `godot-specialist`, `sprint-plan`, `art-coordinator`, `prototype-mode` |
 | **设计支持** | `brainstorm`, `game-designer`, `design-review` |
-| **深度技术** | `godot-gdscript`, `godot-shader`, `godot-gdextension`, `code-review` |
+| **深度技术** | `godot-gdscript`, `godot-csharp`, `godot-shader`, `godot-gdextension`, `code-review` |
 | **顾问角色** | `creative-director`, `lead-programmer` |
 
 > 详见 [docs/SKILLS.md](docs/SKILLS.md)
@@ -103,11 +105,16 @@ tests/             → 测试套件
 
 ## 功能特性
 
-### Skills (17 个)
-- Godot 专用: `godot-specialist`, `godot-gdscript`, `godot-shader`, `godot-gdextension`
+### Skills (18 个)
+- Godot 专用: `godot-specialist`, `godot-gdscript`, `godot-csharp`, `godot-shader`, `godot-gdextension`
 - 游戏开发核心: `creative-director`, `technical-director`, `producer`, `game-designer`, `lead-programmer`
 - 工作流程: `start`, `brainstorm`, `setup-engine`, `sprint-plan`, `code-review`, `design-review`
 - 新增: `art-coordinator`, `prototype-mode`
+
+### 双语言支持
+- **GDScript**: Godot 原生脚本，快速迭代
+- **C#**: .NET 生态系统，复杂数据处理
+- **混合使用**: 为每个系统选择合适的工具
 
 ### Hooks (4 个)
 - Session 开始/结束 — 上下文加载
