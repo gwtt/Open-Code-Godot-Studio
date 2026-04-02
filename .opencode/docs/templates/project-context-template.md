@@ -21,6 +21,23 @@
 
 ---
 
+## MCP Configuration
+
+> MCP 服务器配置状态。由 `/start` skill Phase 2.5 收集。
+
+- **Status**: [Not configured / Partial / Complete / Declined]
+- **Enabled Servers**: [pixellab / elevenlabs / godot — 列出已启用的]
+- **Last Checked**: [YYYY-MM-DD]
+- **Setup Guide**: `.opencode/docs/mcp-setup-guide.md`
+- **Notes**: [任何配置备注或问题]
+
+> **可用 MCP 服务器**:
+> - **PixelLab**: AI 像素艺术生成（角色、瓦片、物体）
+> - **ElevenLabs**: AI 音频/语音生成（音效、配音、音乐）
+> - **Godot MCP**: Godot 项目控制（创建场景、运行项目）
+
+---
+
 ## Target Platform & Resolution
 
 - **Platform**: [PC / Mobile / Console / Web]

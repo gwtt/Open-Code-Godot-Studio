@@ -4,7 +4,7 @@
   "description": "OpenCode Godot Studio - MCP Server Configuration",
   "mcpServers": {
     "pixellab": {
-      "type": "http",
+      "type": "remote",
       "url": "https://api.pixellab.ai/mcp",
       "description": "PixelLab - AI Pixel Art Generation (像素艺术生成)",
       "enabled": false,
@@ -52,14 +52,13 @@
       "docs": "https://pixellab.ai/dashboard",
       "apiKeyUrl": "https://pixellab.ai/dashboard"
     },
-    
+
     "elevenlabs": {
-      "type": "command",
-      "command": "uvx",
-      "args": ["elevenlabs-mcp"],
+      "type": "local",
+      "command": ["uvx", "elevenlabs-mcp"],
       "description": "ElevenLabs - AI Audio/Music Generation (音频/音乐生成)",
       "enabled": false,
-      "env": {
+      "environment": {
         "ELEVENLABS_API_KEY": "YOUR_ELEVENLABS_API_KEY",
         "ELEVENLABS_MCP_OUTPUT_MODE": "files",
         "ELEVENLABS_API_RESIDENCY": "us"
@@ -97,14 +96,13 @@
         "python": ">=3.8"
       }
     },
-    
+
     "godot": {
-      "type": "command",
-      "command": "npx",
-      "args": ["@coding-solo/godot-mcp"],
+      "type": "local",
+      "command": ["npx", "@coding-solo/godot-mcp"],
       "description": "Godot MCP - Godot Project Control (Godot 项目控制)",
       "enabled": false,
-      "env": {
+      "environment": {
         "GODOT_PATH": "YOUR_GODOT_EXECUTABLE_PATH",
         "DEBUG": "false"
       },
@@ -163,13 +161,13 @@
       }
     }
   },
-  
+
   "globalSettings": {
     "timeout": 30000,
     "retryAttempts": 3,
     "logLevel": "info"
   },
-  
+
   "_instructions": {
     "zh_CN": {
       "setup": "运行 scripts/setup-mcp.ps1 (Windows) 或 scripts/setup-mcp.sh (Linux/macOS) 进行一键配置",

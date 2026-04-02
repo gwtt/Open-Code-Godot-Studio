@@ -22,15 +22,19 @@ Entry point for new users. Detects project state and team structure, routes to t
 ## Phase 1: Detect State (Silent)
 
 **ACTION**: Try to read these files (skip if not found):
-- `.opencode/project-context.md` → **Team & project info already collected?**
+- `.opencode/project-context.md` → **Team, project & MCP info already collected?**
+- `.opencode/mcp.json` → **MCP servers configured?**
 - `.opencode/docs/technical-preferences.md` → Engine configured?
 - `design/gdd/game-concept.md` → Game concept exists?
 - Check `src/` directory → Source code exists?
 
 **IF `project-context.md` EXISTS**:
-- Read team structure and project stage from it
-- Skip Phase 2 and Phase 3 (already answered)
+- Read team structure, project stage, and MCP status from it
+- Skip Phase 2, Phase 2.5, and Phase 3 (already answered)
 - Jump directly to Phase 4 with stored values
+
+**IF `mcp.json` EXISTS with enabled servers**:
+- Note MCP configuration status for Phase 4 routing suggestions
 
 **STOP**: After detection, proceed to Phase 2 (if config missing) or Phase 4 (if config exists).
 
@@ -62,6 +66,53 @@ D) 更大团队 — 4人及以上
 
 ---
 
+## Phase 2.5: MCP Integration Check (Optional)
+
+**IF config already has MCP status**:
+- Skip this phase, use stored value
+
+**ELSE, ASK**:
+```
+你是否需要配置 MCP 服务器来增强开发能力？
+
+可选服务器：
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• PixelLab   — AI 像素艺术生成（角色、瓦片、物体）
+• ElevenLabs — AI 音频/语音生成（音效、配音、音乐）
+• Godot MCP  — Godot 项目控制（创建场景、运行项目）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A) 立即配置 — 我会提供设置指南
+B) 稍后配置 — 下次启动时再提醒我
+C) 暂不需要 — 保存选择，以后不再询问
+D) 跳过此步骤 — 暂不决定，下次继续询问
+
+详细配置指南：`.opencode/docs/mcp-setup-guide.md`
+```
+
+**AFTER user answers**:
+1. **IF A (立即配置)**:
+   - Show brief setup guide reference
+   - ASK which servers to enable: "你想启用哪些服务器？"
+   - Provide links: PixelLab (https://pixellab.ai/dashboard), ElevenLabs (https://elevenlabs.io)
+   - APPEND MCP status to `project-context.md`
+
+2. **IF B (稍后配置)**:
+   - Write `Status: pending` to `project-context.md`
+   - Say "好的，下次启动时会再次提醒你"
+
+3. **IF C (暂不需要)**:
+   - Write `Status: declined` to `project-context.md`
+   - Say "已记录你的选择，以后不再询问。你可以随时查阅 `.opencode/docs/mcp-setup-guide.md`"
+
+4. **IF D (跳过)**:
+   - Do NOT write anything (will ask again next session)
+   - Say "好的，我们继续"
+
+5. **STOP**: Wait for user response before proceeding to Phase 3
+
+---
+
 ## Phase 3: Project Stage Check
 
 **IF config already has project stage**:
@@ -85,6 +136,24 @@ D) 已有工作成果 — 我已经有设计文档、原型或代码
    - **Last Updated**: [当前日期]
    ```
 2. **STOP**: Wait for user's answer before writing.
+
+**IF MCP servers are enabled**:
+```
+💡 MCP 增强提示：
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PixelLab 启用时:
+  → /art-coordinator 可自动生成像素资产
+  → /prototype-mode 可快速创建角色动画
+
+ElevenLabs 启用时:
+  → /prototype-mode 可生成音效原型
+  → 音频资产请求流程集成 AI 音效生成
+
+Godot MCP 启用时:
+  → /godot-specialist 可直接操作场景文件
+  → 自动创建节点、加载贴图、运行项目验证
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 ---
 
@@ -134,6 +203,19 @@ Once user confirms their next action:
 下次会话将自动读取，无需重复回答。
 ```
 
+**IF MCP was configured**:
+```
+📌 MCP 配置状态：
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+已启用服务器: [列出用户启用的服务器]
+配置文件: .opencode/mcp.json
+详细指南: .opencode/docs/mcp-setup-guide.md
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**IF MCP was declined**:
+- Do not show MCP status message
+
 **For single developer**:
 - Suggest the primary skill and let them invoke it
 
@@ -141,6 +223,7 @@ Once user confirms their next action:
 - Suggest primary skill + mention team-specific tools
 - **IF有美术队友**: 特别推荐 `/art-coordinator`
 - **IF需要快速验证**: 推荐 `/prototype-mode`
+- **IF MCP enabled**: Highlight MCP-enhanced workflow
 
 **DO NOT invoke other skills automatically.** Let the user invoke them.
 
