@@ -13,34 +13,94 @@
 
 ---
 
-## 协作层级
+## 协作层级 (3-Tier Architecture)
 
 ```
 用户 (最终决策者)
     │
-    ├── 领导核心 (队长日常)
+    ├── Tier 1: Directors (战略决策层)
     │       ├── start (入口路由)
     │       ├── producer (进度/范围)
-    │       └── technical-director (技术决策)
+    │       ├── technical-director (技术决策)
+    │       └── creative-director (创意方向)
     │
-    ├── 执行支持 (日常工作)
-    │       ├── godot-specialist (技术指导)
+    ├── Tier 2: Leads (领域领导层)
+    │       ├── godot-specialist (技术指导 + Dispatcher角色)
+    │       ├── lead-programmer (代码架构)
     │       ├── sprint-plan (进度规划)
     │       ├── art-coordinator (美术协调)
     │       └── prototype-mode (快速验证)
     │
-    ├── 设计支持 (创意工作)
-    │       ├── brainstorm (概念探索)
-    │       ├── game-designer (系统设计)
-    │       └── design-review (设计验证)
+    ├── Tier 3: Specialists (深度技术层)
+    │       ├── godot-gdscript (GDScript模式)
+    │       ├── godot-csharp (C#模式)
+    │       ├── godot-shader (渲染特效)
+    │       ├── godot-gdextension (原生扩展)
+    │       └── code-review (代码质量)
     │
-    └── 深度技术 (特定领域)
-            ├── godot-gdscript (GDScript模式)
-            ├── godot-csharp (C#模式)
-            ├── godot-shader (渲染特效)
-            ├── godot-gdextension (原生扩展)
-            └── code-review (代码质量)
+    └── Support: Consultants (顾问支持)
+            ├── brainstorm (概念探索)
+            ├── game-designer (系统设计)
+            ├── design-review (设计验证)
+            └── setup-engine (引擎配置)
 ```
+
+### Tier Roles Definition
+
+| Tier | Role | Responsibility |
+|------|------|---------------|
+| **Tier 1: Directors** | 战略决策 | 项目方向、范围控制、技术愿景 |
+| **Tier 2: Leads** | 领导 + 委托 | 领域专家，负责委托给 Specialists |
+| **Tier 3: Specialists** | 深度实现 | 特定技术领域的详细实现 |
+
+### Vertical Delegation Flow
+
+```
+User Request
+    ↓
+Director (决策方向)
+    ↓
+Lead (领域匹配)
+    ↓
+Specialist (具体实现)
+```
+
+**规则**: 
+- User → Director: 确定方向和范围
+- Director → Lead: 咨询可行性，委托实现
+- Lead → Specialist: 委托深度技术实现
+
+### Horizontal Consultation
+
+**规则**: Specialists 先横向咨询同级，再向上升级
+
+```
+Specialist A ←→ Specialist B (同级咨询)
+    ↓ (如需更高决策)
+Lead (升级决策)
+```
+
+**示例**:
+- `godot-gdscript` ←→ `godot-shader`: GDScript 视觉问题先咨询 Shader 专家
+- `godot-csharp` ←→ `godot-gdextension`: C# 性能问题先咨询 GDExtension 专家
+- 如果同级无法解决 → 升级到 `godot-specialist` 或 `technical-director`
+
+### godot-specialist Dispatcher Role
+
+**godot-specialist 是 Godot 技术的中央调度器**
+
+| 触发条件 | 委托目标 |
+|---------|---------|
+| GDScript 架构/模式 | → godot-gdscript |
+| C# 模式/.NET 集成 | → godot-csharp |
+| Shader/视觉效果 | → godot-shader |
+| 性能关键/原生代码 | → godot-gdextension |
+
+**Dispatcher 工作流**:
+1. 接收 Godot 技术请求
+2. 判断需要哪种深度专业知识
+3. 委托给对应的 Specialist
+4. 如需跨领域协调，横向咨询其他 Leads
 
 ---
 

@@ -28,6 +28,21 @@ Use this skill when:
 - Converting between GDScript and C#
 - Modernizing legacy Godot 3 C# code
 
+## Coding Standards Reference
+
+**MUST follow**: `.opencode/docs/coding-standards.md` (C# section)
+
+All C# code must comply with:
+- Naming conventions (PascalCase for classes, camelCase for private fields)
+- [GlobalClass] attribute for node registration
+- [Export] patterns (strongly typed exports)
+- [Signal] declaration patterns
+- async/await with ToSignal
+- Node references best practices
+- GD.Print instead of Console.WriteLine
+
+**Performance Threshold**: >1000 calls/frame → delegate to godot-gdextension
+
 ---
 
 ## Godot 4.6.1 Modern Practices

@@ -91,7 +91,55 @@ Before writing any code:
 - Ignoring `tree_exited` signal for cleanup
 - Untyped arrays: Use `Array[Type]`
 
-## Delegation
+## Dispatcher Role
+
+**The Godot Specialist is the central dispatcher for all Godot-specific tasks.**
+
+When deep expertise is needed, godot-specialist routes requests to the appropriate sub-skill:
+
+| Request Type | Delegate To |
+|--------------|-------------|
+| GDScript architecture, patterns, optimization | → **godot-gdscript** |
+| C# patterns, .NET integration, async/await | → **godot-csharp** |
+| Shader development, visual effects, particles | → **godot-shader** |
+| Performance-critical, native code integration | → **godot-gdextension** |
+
+### Delegation Triggers
+
+**Delegate to godot-gdscript when**:
+- Writing GDScript code
+- Designing signal architecture
+- GDScript design patterns needed
+- Static typing enforcement
+
+**Delegate to godot-csharp when**:
+- Writing C# code for Godot
+- Need .NET library integration
+- Async/await patterns in C#
+- Complex data processing
+
+**Delegate to godot-shader when**:
+- Writing Godot shaders
+- Visual shader graphs
+- Particle effects
+- Post-processing effects
+
+**Delegate to godot-gdextension when**:
+- Performance exceeds 1000 calls/frame
+- Need C++/Rust native bindings
+- Heavy math computations
+- Multi-threading requirements
+
+### Tier 2: Lead Role
+
+godot-specialist operates as a **Lead** in the 3-tier hierarchy:
+- **Tier 1: Directors** (producer, technical-director) → Strategic decisions
+- **Tier 2: Leads** (godot-specialist, lead-programmer) → Domain expertise + delegation
+- **Tier 3: Specialists** (godot-gdscript, godot-csharp, etc.) → Deep implementation
+
+---
+
+## Sub-Skill Delegation
 
 When deep expertise is needed, delegate to sub-skills:
 

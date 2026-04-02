@@ -6,6 +6,8 @@ license: MIT
 
 # GDScript Specialist Skill
 
+**Tier 3: Specialist — Enforcement Role**
+
 This skill ensures clean, typed, and performant GDScript across Godot 4 projects.
 
 ## Purpose
@@ -16,6 +18,19 @@ Use this skill when:
 - Implementing GDScript design patterns (state machines, observer, etc.)
 - Optimizing GDScript performance
 - Enforcing static typing standards
+
+## Coding Standards Reference
+
+**MUST follow**: `.opencode/docs/coding-standards.md`
+
+All GDScript code must comply with:
+- Static typing (MANDATORY)
+- Naming conventions (snake_case, PascalCase, UPPER_SNAKE_CASE)
+- File organization standards
+- Signal architecture patterns
+- Performance thresholds (>1000 calls/frame → consider GDExtension)
+
+**Zero Tolerance**: Untyped code is forbidden. All variables, parameters, and return types must have explicit type annotations.
 
 ## Static Typing (Mandatory)
 
