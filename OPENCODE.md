@@ -13,11 +13,64 @@ AI agent context for Godot 4.6.1 game development.
 
 ---
 
+## ⚠️ MANDATORY RULES (强制规则)
+
+> **这些规则不可绕过。所有 Agent 必须遵守。**
+
+### 1. Godot MCP 强制接入
+
+**规则**: 所有 Godot 项目操作必须通过 Godot MCP 工具执行。
+
+| 操作类型 | 强制使用 MCP 工具 |
+|----------|------------------|
+| 创建场景 | `godot_create_scene` |
+| 添加节点 | `godot_add_node` |
+| 加载资源 | `godot_load_sprite` |
+| 保存场景 | `godot_save_scene` |
+| 运行项目 | `godot_run_project` |
+| 获取调试输出 | `godot_get_debug_output` |
+
+**禁止行为**:
+- ❌ 直接编辑 .tscn 文件（除非 MCP 不可用）
+- ❌ 手动创建场景结构（必须使用 MCP）
+- ❌ 跳过 MCP 工具直接操作 Godot 项目
+
+**例外**: 代码文件（.cs, .gd）可直接编辑。
+
+### 2. C# 代码优先
+
+**规则**: 所有逻辑代码优先使用 C# 实现。
+
+| 优先级 | 语言 | 用途 |
+|--------|------|------|
+| **P1 (首选)** | C# | 游戏逻辑、系统、组件 |
+| **P2 (可选)** | GDScript | 快速原型、简单脚本 |
+| **P3 (特殊)** | GDExtension | 高性能模块 |
+
+**禁止行为**:
+- ❌ 默认使用 GDScript（必须优先考虑 C#）
+- ❌ 混合语言同一功能（选择一种）
+
+### 3. MCP 配置验证
+
+**规则**: 每次启动前验证 MCP 配置状态。
+
+```
+必要检查项:
+1. GODOT_PATH 环境变量是否设置
+2. mcp.json 中 godot.enabled = true
+3. MCP 工具调用是否成功响应
+```
+
+**配置文件**: `.opencode/mcp.json`
+
+---
+
 ## Project Structure
 
 ```
 .opencode/    → Skills, hooks, rules, docs
-src/          → Game code (GDScript, C#, C++)
+src/          → Game code (C# primary, GDScript optional)
 assets/       → Art, audio, VFX
 design/       → GDDs, narrative
 production/   → Sprint plans
@@ -106,7 +159,7 @@ User → Directors (决策方向)
 | `deep` | Autonomous problem-solving |
 | `quick` | Trivial fixes |
 
-Load skills: `task(category="...", load_skills=["godot-gdscript"], prompt="...")`
+Load skills: `task(category="...", load_skills=["godot-csharp"], prompt="...")`
 
 ---
 
@@ -117,6 +170,57 @@ Load skills: `task(category="...", load_skills=["godot-gdscript"], prompt="...")
 - Ask before writing files
 - Show drafts before approval
 - No commits without user instruction
+
+---
+
+## MCP Tools Reference (Godot MCP)
+
+> **所有场景操作必须通过这些工具执行。**
+
+### 完整工具列表
+
+| 工具 | 功能 | 参数 |
+|------|------|------|
+| `godot_launch_editor` | 启动 Godot 编辑器 | `projectPath` |
+| `godot_run_project` | 运行项目（调试模式） | `projectPath`, `scene` |
+| `godot_get_debug_output` | 获取调试输出 | - |
+| `godot_stop_project` | 停止运行项目 | - |
+| `godot_get_godot_version` | 获取 Godot 版本 | - |
+| `godot_list_projects` | 列出项目 | `directory` |
+| `godot_get_project_info` | 项目元数据 | `projectPath` |
+| `godot_create_scene` | **创建场景** | `projectPath`, `scenePath`, `rootNodeType` |
+| `godot_add_node` | **添加节点** | `projectPath`, `scenePath`, `nodeType`, `nodeName`, `parentNodePath` |
+| `godot_load_sprite` | 加载精灵贴图 | `projectPath`, `scenePath`, `nodePath`, `texturePath` |
+| `godot_export_mesh_library` | 导出 MeshLibrary | `projectPath`, `scenePath`, `outputPath` |
+| `godot_save_scene` | **保存场景** | `projectPath`, `scenePath` |
+| `godot_get_uid` | 获取 UID (Godot 4.4+) | `projectPath`, `filePath` |
+| `godot_update_project_uids` | 更新项目 UID | `projectPath` |
+
+### 使用示例
+
+```typescript
+// 创建新场景
+godot_create_scene({
+  projectPath: "D:/MyGame",
+  scenePath: "Scenes/Main.tscn",
+  rootNodeType: "Node2D"
+})
+
+// 添加节点
+godot_add_node({
+  projectPath: "D:/MyGame",
+  scenePath: "Scenes/Main.tscn",
+  nodeType: "Sprite2D",
+  nodeName: "Player",
+  parentNodePath: "root"
+})
+
+// 保存场景
+godot_save_scene({
+  projectPath: "D:/MyGame",
+  scenePath: "Scenes/Main.tscn"
+})
+```
 
 ---
 
@@ -154,7 +258,7 @@ cp Open-Code-Godot-Studio/OPENCODE.md 你的项目路径/
 | `.opencode/hooks/` | 自动化脚本（session、commit 验证） | ✅ 推荐 |
 | `.opencode/rules/` | GDScript/C# 编码规则 | ✅ 推荐 |
 | `.opencode/docs/` | 文档 + Engine Reference | ⚡ 可选 |
-| `.opencode/mcp.json` | MCP 服务器配置 | ⚡ 可选 |
+| `.opencode/mcp.json` | MCP 服务器配置 | ✅ **强制** |
 | `OPENCODE.md` | AI 入口配置文件 | ✅ 必须 |
 
 ---
@@ -237,7 +341,7 @@ cp OPENCODE.md 你的项目/
 | `/start` | 项目初始化 | 交互式引导 |
 | `/godot-specialist` | Godot API 专家 | 自动检查废弃 API |
 | `/godot-gdscript` | GDScript 代码生成 | 遵循编码规则 |
-| `/godot-csharp` | C# 代码生成 | .NET 8 模式 |
+| `/godot-csharp` | **C# 代码生成** | .NET 8 模式 |
 | `/godot-shader` | Shader 编写 | Godot shading language |
 | `/brainstorm` | 游戏创意生成 | MDA 框架 |
 | `/game-designer` | 游戏系统设计 | 机制设计 |
@@ -270,7 +374,17 @@ cp OPENCODE.md 你的项目/
 - **Engine**: Godot 4.x  ← 改成你的版本
 ```
 
-**Step 3：使用**
+**Step 3：配置 MCP**
+
+设置环境变量：
+```powershell
+# Windows
+$env:GODOT_PATH = "C:\Godot\Godot_v4.6.1-stable_win64.exe"
+```
+
+或直接编辑 `.opencode/mcp.json` 替换 `${GODOT_PATH}`。
+
+**Step 4：使用**
 
 在 OpenCode 中打开你的项目，运行：
 
@@ -300,4 +414,4 @@ cp OPENCODE.md 你的项目/
 
 ---
 
-> **第一次使用？** 复制 `.opencode/` + `OPENCODE.md` 到你的项目，修改版本号，然后运行 `/start`
+> **第一次使用？** 复制 `.opencode/` + `OPENCODE.md` 到你的项目，修改版本号，配置 GODOT_PATH，然后运行 `/start`

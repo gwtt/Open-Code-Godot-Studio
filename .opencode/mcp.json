@@ -9,7 +9,34 @@
       "enabled": false
     },
     "godot": {
-      "enabled": false
+      "enabled": true,
+      "type": "local",
+      "command": ["npx", "@coding-solo/godot-mcp"],
+      "environment": {
+        "GODOT_PATH": "${GODOT_PATH}",
+        "DEBUG": "true"
+      },
+      "autoApprove": [
+        "launch_editor",
+        "run_project",
+        "get_debug_output",
+        "stop_project",
+        "get_godot_version",
+        "list_projects",
+        "get_project_info",
+        "create_scene",
+        "add_node",
+        "load_sprite",
+        "export_mesh_library",
+        "save_scene",
+        "get_uid",
+        "update_project_uids"
+      ]
     }
+  },
+  "_instructions": {
+    "GODOT_PATH_REQUIRED": "必须设置环境变量 GODOT_PATH 或直接替换 ${GODOT_PATH} 为实际路径",
+    "example_windows": "C:\\Godot\\Godot_v4.6.1-stable_win64.exe",
+    "example_linux": "/usr/bin/godot4"
   }
 }
