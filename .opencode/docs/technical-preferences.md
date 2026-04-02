@@ -7,19 +7,20 @@ This document defines the technical standards and preferences for the project.
 ## Engine & Language
 
 - **Engine**: Godot 4.6.1
-- **Languages**: GDScript + C# (dual support)
+- **Languages**: C# (primary) + GDScript (optional)
 - **Performance**: GDExtension (C++/Rust) when needed
 - **Version Control**: Git
 
 ### Language Selection Guide
 
-| Use GDScript When | Use C# When |
-|-------------------|-------------|
-| Rapid prototyping | Need .NET ecosystem |
-| Game logic & UI | External .NET libraries |
-| Quick iterations | Complex data processing |
-| Small-medium team | Large codebase |
-| Learning Godot | Existing C# experience |
+| Use C# When (Primary) | Use GDScript When (Optional) |
+|-----------------------|------------------------------|
+| Default choice for all new code | Quick prototyping only |
+| Need .NET ecosystem | Small-medium team learning Godot |
+| External .NET libraries | Very simple game logic |
+| Complex data processing | Rapid iteration without compilation |
+| Large codebase | Prefer lightweight syntax |
+| Better AI code generation | |
 
 ---
 
@@ -56,16 +57,16 @@ This document defines the technical standards and preferences for the project.
 
 ## File Organization
 
-### Mixed Project Structure
+### C# Primary Project Structure
 
 ```
 project/
 ├── src/
-│   ├── core/           # Engine-independent utilities
+│   ├── core/           # Engine-independent utilities (C#)
 │   ├── systems/        # Game systems (audio, save, etc.)
-│   ├── gameplay/       # Game-specific logic
-│   │   ├── *.gd        # GDScript files
-│   │   └── *.cs        # C# files (can coexist)
+│   ├── gameplay/       # Game-specific logic (C# primary)
+│   │   ├── *.cs        # C# files (primary language)
+│   │   └── *.gd        # GDScript files (optional, when needed)
 │   ├── ui/             # UI components
 │   └── utils/          # Helper utilities
 ├── assets/
@@ -95,15 +96,15 @@ src/
 
 ## API Style Comparison
 
-| Task | GDScript | C# |
-|------|----------|-----|
-| Node reference | `@onready var sprite = $Sprite` | `GetNode<Sprite2D>("Sprite")` |
-| Signal | `signal health_changed(val)` | `[Signal] delegate void HealthChangedEventHandler(float val);` |
-| Export | `@export var speed: float` | `[Export] public float Speed { get; set; }` |
-| Ready | `func _ready():` | `public override void _Ready()` |
-| Process | `func _process(delta):` | `public override void _Process(double delta)` |
-| Print | `print("hello")` | `GD.Print("hello")` |
-| Random | `randf()` | `GD.Randf()` |
+| Task | C# (Primary) | GDScript (Optional) |
+|------|--------------|---------------------|
+| Node reference | `[Export] public Sprite2D Sprite { get; set; }` | `@onready var sprite = $Sprite` |
+| Signal | `[Signal] delegate void HealthChangedEventHandler(float val);` | `signal health_changed(val)` |
+| Export | `[Export] public float Speed { get; set; }` | `@export var speed: float` |
+| Ready | `public override void _Ready()` | `func _ready():` |
+| Process | `public override void _Process(double delta)` | `func _process(delta):` |
+| Print | `GD.Print("hello")` | `print("hello")` |
+| Random | `GD.Randf()` | `randf()` |
 
 ---
 

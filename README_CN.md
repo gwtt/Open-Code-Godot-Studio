@@ -2,7 +2,7 @@
 
 AI 驱动的 Godot 4.6.1 游戏开发框架。
 
-**同时支持 GDScript 和 C#** - 可以单独使用一种语言，或在同一项目中混合使用。
+**C# 为主语言**，可选 GDScript - AI 模型对 C# 的代码生成质量更好。
 
 [English](./README.md) | 中文文档
 
@@ -135,7 +135,7 @@ cp Open-Code-Godot-Studio/OPENCODE.md 你的项目/OPENCODE.md
 ├── rules/         → 编码标准
 └── docs/          → 模板和参考
 
-src/               → 游戏代码 (GDScript, C#, C++)
+src/               → 游戏代码 (C# 为主，GDScript 可选，C++ 用于 GDExtension)
 assets/            → 美术、音效、特效
 design/            → GDD、叙事
 production/        → Sprint 计划、里程碑
@@ -174,10 +174,10 @@ tests/             → 测试套件
 - 工作流程: `start`, `brainstorm`, `setup-engine`, `sprint-plan`, `code-review`, `design-review`
 - 新增: `art-coordinator`, `prototype-mode`
 
-### 双语言支持
-- **GDScript**: Godot 原生脚本，快速迭代
-- **C#**: .NET 生态系统，复杂数据处理
-- **混合使用**: 为每个系统选择合适的工具
+### 语言支持
+- **C# (主语言)**: .NET 生态系统，更好的 AI 代码生成，复杂数据处理
+- **GDScript (可选)**: Godot 原生脚本，快速原型开发
+- **GDExtension**: 性能关键的本地代码 (C++/Rust)
 
 ### Hooks (4 个)
 - Session 开始/结束 — 上下文加载
@@ -185,9 +185,9 @@ tests/             → 测试套件
 - Asset 验证 — 命名约定
 
 ### Rules (3 个)
+- C# 标准 — .NET 8 模式、Godot C# API
 - GDScript 标准 — 静态类型、信号
 - Gameplay 规则 — 游戏特定模式
-- 通用规则 — 最佳实践
 
 ---
 

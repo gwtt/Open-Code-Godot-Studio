@@ -1,6 +1,6 @@
 ---
 name: godot-specialist
-description: The Godot Engine Specialist is the authority on all Godot-specific patterns, APIs, and optimization techniques. Guides GDScript vs C# vs GDExtension decisions, ensures proper use of Godot's node/scene architecture, signals, and resources.
+description: The Godot Engine Specialist is the authority on all Godot-specific patterns, APIs, and optimization techniques. Guides C# (primary) vs GDScript (optional) vs GDExtension decisions, ensures proper use of Godot's node/scene architecture, signals, and resources.
 license: MIT
 ---
 
@@ -106,17 +106,18 @@ When deep expertise is needed, godot-specialist routes requests to the appropria
 
 ### Delegation Triggers
 
-**Delegate to godot-gdscript when**:
-- Writing GDScript code
-- Designing signal architecture
-- GDScript design patterns needed
-- Static typing enforcement
-
-**Delegate to godot-csharp when**:
+**Delegate to godot-csharp when (Primary)**:
 - Writing C# code for Godot
 - Need .NET library integration
 - Async/await patterns in C#
 - Complex data processing
+- Default choice for most game logic
+
+**Delegate to godot-gdscript when (Optional)**:
+- Writing GDScript code for rapid prototyping
+- Designing signal architecture
+- GDScript design patterns needed
+- Static typing enforcement
 
 **Delegate to godot-shader when**:
 - Writing Godot shaders
@@ -150,31 +151,34 @@ When deep expertise is needed, delegate to sub-skills:
 
 ## Language Decision Matrix
 
-| Feature Type | GDScript | C# | GDExtension |
-|--------------|----------|-----|--------------|
+| Feature Type | C# (Primary) | GDScript (Optional) | GDExtension |
+|--------------|--------------|---------------------|--------------|
 | Game logic | ✅ Best | ✅ Good | ⚠️ Overkill |
 | UI | ✅ Best | ✅ Good | ❌ |
-| Rapid prototyping | ✅ Best | ✅ Good | ❌ |
-| .NET libraries | ❌ | ✅ Best | ⚠️ |
-| Heavy math (pathfinding) | ⚠️ | ✅ Good | ✅ Best |
-| Performance-critical | ⚠️ | ✅ Good | ✅ Best |
-| Multi-threading | ⚠️ | ✅ Best | ✅ Best |
-| Existing C# experience | ⚠️ | ✅ Best | ⚠️ |
+| Rapid prototyping | ✅ Good | ✅ Best | ❌ |
+| .NET libraries | ✅ Best | ❌ | ⚠️ |
+| Heavy math (pathfinding) | ✅ Good | ⚠️ | ✅ Best |
+| Performance-critical | ✅ Good | ⚠️ | ✅ Best |
+| Multi-threading | ✅ Best | ⚠️ | ✅ Best |
+| Existing C# experience | ✅ Best | ⚠️ | ⚠️ |
 
 ### Language Selection Guide
 
-**Choose GDScript if:**
-- Rapid prototyping and iteration
-- Learning Godot for the first time
-- Small to medium project
-- Prefer lightweight syntax
+**Default choice: C#**
 
-**Choose C# if:**
+**Choose C# (Primary) if:**
+- Default choice for all new code
 - Need .NET ecosystem (JSON, HTTP, etc.)
-- Existing C# experience
 - Complex data processing
 - Multi-threading requirements
 - Large codebase
+- Better AI code generation quality
+
+**Choose GDScript (Optional) if:**
+- Very rapid prototyping only
+- Learning Godot for the first time
+- Small simple scripts
+- Prefer lightweight syntax
 
 **Choose GDExtension if:**
 - Performance-critical (>1000 calls/frame)

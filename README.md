@@ -2,7 +2,7 @@
 
 AI-powered game development framework for Godot 4.6.1.
 
-**Supports both GDScript and C#** - use either language or mix both in the same project.
+**C# primary language** with optional GDScript support - AI models have better C# code generation quality.
 
 [中文文档](./README_CN.md) | English
 
@@ -135,7 +135,7 @@ System detects your state and guides you.
 ├── rules/         → Coding standards
 └── docs/          → Templates and references
 
-src/               → Game code (GDScript, C#, C++)
+src/               → Game code (C# primary, GDScript optional, C++ for GDExtension)
 assets/            → Art, audio, VFX
 design/            → GDDs, narrative
 production/        → Sprint plans, milestones
@@ -174,10 +174,10 @@ Friday:   /producer → Week summary
 - Workflows: `start`, `brainstorm`, `setup-engine`, `sprint-plan`, `code-review`, `design-review`
 - New: `art-coordinator`, `prototype-mode`
 
-### Dual Language Support
-- **GDScript**: Native Godot scripting, rapid iteration
-- **C#**: .NET ecosystem, complex data processing
-- **Mix both**: Use the right tool for each system
+### Language Support
+- **C# (Primary)**: .NET ecosystem, better AI code generation, complex data processing
+- **GDScript (Optional)**: Native Godot scripting, rapid prototyping
+- **GDExtension**: Performance-critical native code (C++/Rust)
 
 ### Hooks (4)
 - Session start/stop — Context loading
@@ -185,9 +185,9 @@ Friday:   /producer → Week summary
 - Asset validation — Naming conventions
 
 ### Rules (3)
+- C# standards — .NET 8 patterns, Godot C# API
 - GDScript standards — Static typing, signals
 - Gameplay rules — Game-specific patterns
-- General rules — Best practices
 
 ---
 

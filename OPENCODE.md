@@ -7,7 +7,7 @@ AI agent context for Godot 4.6.1 game development.
 ## Technology Stack
 
 - **Engine**: Godot 4.6.1
-- **Languages**: GDScript + C# (dual support)
+- **Languages**: C# (primary) + GDScript (optional)
 - **Performance**: GDExtension (C++/Rust) when needed
 - **Version Control**: Git
 
