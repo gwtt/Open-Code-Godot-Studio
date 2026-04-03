@@ -2,6 +2,44 @@
 name: setup-engine
 description: Configure the project's game engine and version. Pins the engine in OPENCODE.md, creates reference docs, and sets up technical preferences for Godot.
 license: MIT
+phase_automation:
+  auto_proceed_default: false
+  user_override_command: "/manual"
+  phases:
+    - phase: "Phase 1: Parse Arguments & Detect State"
+      auto_conditions:
+        - condition_type: "config_has_key"
+          config_file: ".opencode/docs/technical-preferences.md"
+          key: "Engine & Language"
+          action_if_met: "skip"
+          notification: "✅ 引擎配置已存在，跳过版本选择"
+
+    - phase: "Phase 2.5: Language Preference Selection"
+      auto_conditions:
+        - condition_type: "language_preference_set"
+          action_if_met: "skip"
+          notification: "✅ 语言偏好已配置，跳过此阶段"
+
+    - phase: "Phase 6: Create Engine Reference"
+      auto_conditions:
+        - condition_type: "previous_phase_success"
+          previous_phase: "Phase 5: Update OPENCODE.md"
+          action_if_met: "proceed"
+          notification: "🔧 自动创建引擎引用文档..."
+
+    - phase: "Phase 7: Create Project Structure"
+      auto_conditions:
+        - condition_type: "previous_phase_success"
+          previous_phase: "Phase 6"
+          action_if_met: "proceed"
+          notification: "📁 自动创建项目目录结构..."
+
+    - phase: "Phase 8: Output Summary"
+      auto_conditions:
+        - condition_type: "previous_phase_success"
+          previous_phase: "Phase 7"
+          action_if_met: "proceed"
+          notification: "✅ 引擎配置完成！"
 ---
 
 # Setup Engine Skill

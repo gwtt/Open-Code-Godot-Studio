@@ -1,0 +1,16 @@
+{
+  "actions": {
+    "primary": ["proceed", "skip", "invoke_skill", "proceed_manual"],
+    "fallback": ["proceed_manual", "log_error_and_stop", "ask_user"]
+  },
+  "action_descriptions": {
+    "proceed": "Automatically advance to next phase without user input",
+    "skip": "Skip current phase entirely and move to next",
+    "invoke_skill": "Invoke another skill automatically",
+    "proceed_manual": "Continue but require manual user input",
+    "log_error_and_stop": "Log error and halt execution",
+    "ask_user": "Prompt user for decision on failure"
+  },
+  "version": "1.0.0",
+  "description": "Action types for phase automation in OpenCode skills"
+}

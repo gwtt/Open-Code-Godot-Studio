@@ -2,6 +2,31 @@
 name: brainstorm
 description: Explore game ideas from scratch using professional frameworks — MDA, player psychology, verb-first design. Develops vague concepts into formalized game concepts.
 license: MIT
+phase_automation:
+  auto_proceed_default: false
+  user_override_command: "/manual"
+  phases:
+    - phase: "Phase 1: Initial Context"
+      auto_conditions:
+        - condition_type: "game_type_detected"
+          action_if_met: "proceed"
+          notification: "🎮 检测到游戏类型，自动进入问卷..."
+          target_phase: "Phase 2.5"
+
+    - phase: "Phase 7: Save"
+      auto_conditions:
+        - condition_type: "save_success"
+          action_if_met: "proceed"
+          notification: "✅ 游戏概念已保存！启动玩家评估..."
+          trigger_on_approval: true
+
+    - phase: "Phase 8: Player Evaluation"
+      auto_conditions:
+        - condition_type: "user_approved"
+          action_if_met: "invoke_skill"
+          skill: "player-evaluator"
+          notification: "🚀 自动启动 player-evaluator..."
+          trigger_on_approval: true
 ---
 
 # Brainstorm Skill

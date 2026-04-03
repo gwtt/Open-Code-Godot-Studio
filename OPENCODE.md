@@ -173,6 +173,69 @@ Load skills: `task(category="...", load_skills=["godot-csharp"], prompt="...")`
 
 ---
 
+## Skill Phase Automation (NEW)
+
+> **减少不必要的 "继续" 提示，提升工作流体验**
+
+### 概述
+
+Skills 现在支持 **phase_automation** 元数据，允许在满足特定条件时自动跳过或推进阶段。
+
+**核心原则**:
+- **安全优先**: `auto_proceed_default: false` — 默认手动模式
+- **用户控制**: 任何时候输入 `/manual` 强制手动模式
+- **透明通知**: 自动操作会显示通知消息
+
+### 自动化条件类型
+
+| 条件类型 | 描述 | 示例 |
+|---------|------|------|
+| `file_exists` | 文件存在时触发 | `.opencode/project-context.md` 存在 → 跳过配置检测 |
+| `config_has_key` | 配置文件包含键时触发 | `Team Structure` 已配置 → 跳过团队检测 |
+| `mcp_enabled` | MCP 服务启用时触发 | PixelLab 启用 → 自动选择 AI 估算 |
+| `previous_phase_success` | 上一阶段成功时触发 | Phase 5 审批通过 → 自动执行 Phase 6-8 |
+| `user_approved` | 用户批准时触发 | 用户选 Y → 自动保存并继续 |
+| `game_type_detected` | 检测到游戏类型时触发 | Tower Defense 关键词 → 自动加载问卷 |
+| `language_preference_set` | 语言偏好已配置时触发 | C# 已配置 → 跳过语言选择 |
+| `sprint_exists` | Sprint 文件存在时触发 | Sprint 已创建 → 自动显示进度 |
+
+### 自动操作类型
+
+| 操作 | 描述 |
+|------|------|
+| `proceed` | 自动进入下一阶段 |
+| `skip` | 跳过当前阶段 |
+| `invoke_skill` | 自动调用另一个 skill |
+
+### 用户控制命令
+
+| 命令 | 功能 |
+|------|------|
+| `/manual` | 强制当前 skill 进入手动模式 |
+| `/auto-review` | 显示当前 skill 的自动触发条件 |
+
+### 示例：start skill 自动化
+
+```yaml
+phase_automation:
+  auto_proceed_default: false
+  phases:
+    - phase: "Phase 1: Detect State"
+      auto_conditions:
+        - condition_type: "file_exists"
+          target: ".opencode/project-context.md"
+          action_if_met: "skip"
+          notification: "✅ 配置文件已存在，自动跳过状态检测"
+```
+
+**效果**: 如果 `project-context.md` 已存在，`/start` 将自动跳过团队检测、MCP 配置和项目阶段询问，直接进入路由阶段。
+
+### Schema 参考
+
+完整 schema 定义见: `.opencode/docs/schemas/phase-automation-schema.yaml`
+
+---
+
 ## MCP Tools Reference (Godot MCP)
 
 > **所有场景操作必须通过这些工具执行。**

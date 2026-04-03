@@ -2,6 +2,41 @@
 name: start
 description: First-time onboarding — asks where you are, then guides you to the right workflow. No assumptions.
 license: MIT
+phase_automation:
+  auto_proceed_default: false
+  user_override_command: "/manual"
+  phases:
+    - phase: "Phase 1: Detect State"
+      auto_conditions:
+        - condition_type: "file_exists"
+          target: ".opencode/project-context.md"
+          action_if_met: "skip"
+          notification: "✅ 配置文件已存在，自动跳过状态检测"
+          fallback_action: "proceed_manual"
+
+    - phase: "Phase 2: Team Structure Detection"
+      auto_conditions:
+        - condition_type: "config_has_key"
+          config_file: ".opencode/project-context.md"
+          key: "Team Structure"
+          action_if_met: "skip"
+          notification: "✅ 团队结构已配置，跳过此阶段"
+
+    - phase: "Phase 2.5: MCP Integration Check"
+      auto_conditions:
+        - condition_type: "config_has_key"
+          config_file: ".opencode/project-context.md"
+          key: "MCP Status"
+          action_if_met: "skip"
+          notification: "✅ MCP 状态已记录，跳过此阶段"
+
+    - phase: "Phase 3: Project Stage Check"
+      auto_conditions:
+        - condition_type: "config_has_key"
+          config_file: ".opencode/project-context.md"
+          key: "Project Stage"
+          action_if_met: "skip"
+          notification: "✅ 项目阶段已设置，跳过此阶段"
 ---
 
 # Guided Onboarding Skill

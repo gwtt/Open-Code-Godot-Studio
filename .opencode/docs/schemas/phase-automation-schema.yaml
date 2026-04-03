@@ -1,0 +1,149 @@
+# Phase Automation Schema
+# JSON Schema Draft-07 for skill frontmatter metadata
+# Version: 1.0.0
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "PhaseAutomation"
+description: "Schema for defining automatic phase transitions in OpenCode skills"
+type: object
+
+required:
+  - auto_proceed_default
+  - phases
+
+properties:
+  auto_proceed_default:
+    type: boolean
+    default: false
+    description: "Safety-first: default to manual mode. Set true only for trusted automation."
+
+  user_override_command:
+    type: string
+    default: "/manual"
+    description: "Command users can type to force manual mode for current skill"
+
+  phases:
+    type: array
+    description: "List of phases with automation conditions"
+    items:
+      type: object
+      required:
+        - phase
+        - auto_conditions
+      properties:
+        phase:
+          type: string
+          description: "Phase name matching SKILL.md phase heading (e.g., 'Phase 1: Initial Context')"
+
+        auto_conditions:
+          type: array
+          minItems: 1
+          description: "Conditions that trigger automatic actions"
+          items:
+            type: object
+            required:
+              - condition_type
+              - action_if_met
+            properties:
+              # Condition Type
+              condition_type:
+                type: string
+                enum:
+                  - file_exists
+                  - config_has_key
+                  - mcp_enabled
+                  - previous_phase_success
+                  - user_approved
+                  - game_type_detected
+                  - language_preference_set
+                  - sprint_exists
+                  - milestone_exists
+                  - save_success
+                  - custom
+                description: "Type of condition to evaluate"
+
+              # Condition-specific parameters
+              target:
+                type: string
+                description: "File path for file_exists condition"
+
+              config_file:
+                type: string
+                description: "Config file path for config_has_key condition"
+
+              key:
+                type: string
+                description: "Key to check in config file"
+
+              server_name:
+                type: string
+                description: "MCP server name for mcp_enabled condition"
+
+              previous_phase:
+                type: string
+                description: "Previous phase name for previous_phase_success condition"
+
+              custom_expression:
+                type: string
+                description: "Python expression for custom condition (sandboxed)"
+
+              target_phase:
+                type: string
+                description: "Target phase to jump to (for proceed with specific destination)"
+
+              # Actions
+              action_if_met:
+                type: string
+                enum:
+                  - proceed
+                  - skip
+                  - invoke_skill
+                  - proceed_manual
+                description: "Action to take when condition is met"
+
+              skill:
+                type: string
+                description: "Skill name to invoke when action is invoke_skill"
+
+              # User Feedback
+              notification:
+                type: string
+                description: "Message to display when auto-proceed happens"
+
+              # Fallback
+              fallback_action:
+                type: string
+                enum:
+                  - proceed_manual
+                  - log_error_and_stop
+                  - ask_user
+                default: "proceed_manual"
+                description: "Action to take if auto-proceed fails"
+
+              # Special Flags
+              trigger_on_approval:
+                type: boolean
+                default: false
+                description: "Detect user 'Y/yes' responses and auto-proceed"
+
+additionalProperties: false
+
+# Examples
+examples:
+  - auto_proceed_default: false
+    user_override_command: "/manual"
+    phases:
+      - phase: "Phase 1: Detect State"
+        auto_conditions:
+          - condition_type: "file_exists"
+            target: ".opencode/project-context.md"
+            action_if_met: "skip"
+            notification: "✅ Config exists, skipping detection"
+            fallback_action: "proceed_manual"
+
+      - phase: "Phase 7: Save"
+        auto_conditions:
+          - condition_type: "save_success"
+            action_if_met: "proceed"
+            notification: "✅ Saved! Starting evaluation..."
+            trigger_on_approval: true

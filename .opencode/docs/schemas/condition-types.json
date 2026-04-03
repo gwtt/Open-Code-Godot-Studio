@@ -1,0 +1,18 @@
+{
+  "condition_types": [
+    "file_exists",
+    "config_has_key",
+    "mcp_enabled",
+    "previous_phase_success",
+    "user_approved",
+    "game_type_detected",
+    "language_preference_set",
+    "sprint_exists",
+    "milestone_exists",
+    "save_success"
+  ],
+  "custom_allowed": true,
+  "composition_operators": ["AND", "OR", "NOT"],
+  "version": "1.0.0",
+  "description": "Built-in condition types for phase automation in OpenCode skills"
+}

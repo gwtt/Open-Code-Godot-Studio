@@ -2,6 +2,37 @@
 name: sprint-plan
 description: Plan development sprints with task breakdown, estimation, and scope management. Creates sprint documents for tracking progress.
 license: MIT
+phase_automation:
+  auto_proceed_default: false
+  user_override_command: "/manual"
+  phases:
+    - phase: "Phase 1: Parse Command & Detect State"
+      auto_conditions:
+        - condition_type: "file_exists"
+          target: "design/gdd/game-concept.md"
+          action_if_met: "proceed"
+          notification: "✅ 游戏概念已存在，继续检查 Sprint..."
+
+        - condition_type: "sprint_exists"
+          action_if_met: "proceed"
+          notification: "✅ Sprint 已存在，自动显示状态..."
+
+    - phase: "Phase 5: Task Breakdown & Estimation"
+      auto_conditions:
+        - condition_type: "language_preference_set"
+          action_if_met: "skip"
+          notification: "✅ 语言偏好已配置，跳过语言选择"
+
+        - condition_type: "mcp_enabled"
+          server_name: "pixellab"
+          action_if_met: "proceed"
+          notification: "✅ PixelLab MCP 已启用，自动选择 AI 估算"
+
+    - phase: "Phase 7: Sprint Review"
+      auto_conditions:
+        - condition_type: "sprint_exists"
+          action_if_met: "proceed"
+          notification: "📊 自动生成 Sprint 进度报告..."
 ---
 
 # Sprint Planning Skill
