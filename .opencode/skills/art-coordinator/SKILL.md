@@ -24,6 +24,7 @@ license: MIT
 | 用户说 | 执行 |
 |--------|------|
 | "创建资产请求" | Phase 3: Asset Request |
+| "AI 生成资产" | Phase 3B: AI-Driven Generation |
 | "检查命名规范" | Phase 4: Naming Convention |
 | "导入设置" | Phase 5: Import Settings |
 | "同步进度" | Phase 6: Sync Status |
@@ -179,6 +180,132 @@ F) 其他
 **ASK**: "这个规格正确吗？要保存为请求文档吗？"
 
 **STOP**: Wait for user approval.
+
+---
+
+## Phase 3B: AI-Driven Generation (MCP)
+
+> **触发条件**: MCP 服务已启用 (PixelLab/ElevenLabs)
+
+### MCP 服务状态检查
+
+**CHECK**: `.opencode/mcp.json` 中 MCP 服务状态
+
+```
+MCP 服务状态
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PixelLab (图片): [已启用/未启用]
+ElevenLabs (音频): [已启用/未启用]
+Godot MCP: [已启用/未启用]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**IF MCP 未启用**:
+- **ASK**: "检测到 MCP 服务未启用，是否要配置？"
+- **IF yes**: 指导运行 `scripts/setup-mcp.ps1` 或手动配置
+- **IF no**: 回退到 Phase 3 人工创建
+
+### AI 资产生成流程
+
+#### 图片生成 (PixelLab MCP)
+
+**可用工具**:
+| 工具 | 功能 | 输出目录 |
+|------|------|----------|
+| `create_character` | 像素角色 | `assets/sprites/generated/` |
+| `create_topdown_tileset` | 俯视角瓦片 | `assets/sprites/generated/` |
+| `create_sidescroller_tileset` | 横版瓦片 | `assets/sprites/generated/` |
+| `create_map_object` | 地图装饰物 | `assets/sprites/generated/` |
+
+**生成流程**:
+```
+1. 定义资产规格 (尺寸、风格、方向数)
+2. 构建生成提示词
+3. 调用 PixelLab MCP 工具
+4. 验证生成结果
+5. 重命名并移动到正确目录
+6. 更新 Godot 项目
+```
+
+**示例调用**:
+```typescript
+// 生成像素角色
+pixellab_create_character({
+  description: "16x16 pixel knight character, top-down view, 4 directions",
+  n_directions: 4,
+  size: 16
+})
+// 输出: assets/sprites/generated/char_knight_16x16.png
+```
+
+#### 音频生成 (ElevenLabs MCP)
+
+**可用工具**:
+| 工具 | 功能 | 输出目录 |
+|------|------|----------|
+| `text_to_sound_effects` | 音效生成 | `assets/audio/generated/` |
+| `compose_music` | 音乐生成 | `assets/audio/generated/` |
+| `text_to_speech` | 语音生成 | `assets/audio/generated/` |
+
+**生成流程**:
+```
+1. 定义音频规格 (时长、风格、情绪)
+2. 构建生成提示词
+3. 调用 ElevenLabs MCP 工具
+4. 验证生成结果
+5. 重命名并移动到正确目录
+6. 更新 Godot 项目
+```
+
+**示例调用**:
+```typescript
+// 生成跳跃音效
+elevenlabs_text_to_sound_effects({
+  text: "cartoon jump sound, quick whoosh, playful",
+  duration_seconds: 0.5
+})
+// 输出: assets/audio/generated/sfx_jump_01.wav
+```
+
+### 自动化导入 (Godot MCP)
+
+**IF Godot MCP 已启用**:
+```
+生成完成后的自动化步骤:
+1. godot_load_sprite → 自动加载图片到场景
+2. 更新 .import 文件
+3. 验证资源路径 (res://assets/...)
+```
+
+### AI 生成估算时间
+
+| 资产类型 | 简单 | 中等 | 复杂 |
+|----------|------|------|------|
+| Sprite (角色) | 30秒 | 1分钟 | 3分钟 |
+| Sprite (道具) | 15秒 | 30秒 | 1分钟 |
+| UI 元素 | 10秒 | 20秒 | 30秒 |
+| Tileset | 30秒 | 1分钟 | 3分钟 |
+| 音效 | 15秒 | 30秒 | 1分钟 |
+| 音乐循环 | 30秒 | 1分钟 | 3分钟 |
+
+> **包含**: 提示词编写 + MCP 调用 + 结果验证 + 重命名导入
+
+### 质量验证清单
+
+生成后必须验证:
+- [ ] 尺寸是否符合规格
+- [ ] 风格是否一致
+- [ ] 命名是否正确
+- [ ] 文件格式是否正确
+- [ ] Godot 导入是否成功
+- [ ] 游戏内显示是否正常
+
+**IF 质量不满意**:
+- **ASK**: "生成结果不满意，是否重新生成？"
+- **IF yes**: 调整提示词，重新调用 MCP
+- **IF no**: 标记为"需人工调整"，记录问题
+
+**STOP**: Wait for user confirmation or regeneration request.
 
 ---
 

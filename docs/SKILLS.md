@@ -1,6 +1,6 @@
 # Skills 完整指南
 
-> 所有 18 个技能的详细说明和使用指南
+> 所有 19 个技能的详细说明和使用指南
 
 ---
 
@@ -9,7 +9,7 @@
 | 分类 | Skills |
 |------|--------|
 | **领导核心** | `start`, `producer`, `technical-director` |
-| **执行支持** | `godot-specialist`, `sprint-plan`, `art-coordinator`, `prototype-mode` |
+| **执行支持** | `godot-specialist`, `sprint-plan`, `art-coordinator`, `prototype-mode`, `player-evaluator` |
 | **设计支持** | `brainstorm`, `game-designer`, `design-review` |
 | **深度技术** | `godot-gdscript`, `godot-csharp`, `godot-shader`, `godot-gdextension`, `code-review` |
 | **顾问角色** | `creative-director`, `lead-programmer` |
@@ -212,6 +212,65 @@
 - 快速验证想法
 - 测试核心玩法
 - 技术可行性验证
+
+---
+
+### `/player-evaluator` ⭐ NEW
+
+**用途**: 从多个玩家视角评估游戏概念，提供改进建议
+
+**调用方式**:
+```
+/player-evaluator              # 评估当前游戏概念
+/player-evaluator profiles     # 查看可用玩家视角
+/player-evaluator add [id]     # 添加特定视角评估
+```
+
+**功能**:
+- 从多个玩家类型评估游戏概念
+- 识别有趣性、参与度、学习曲线问题
+- 发现共识问题（多视角提及）
+- 生成具体改进建议
+
+**评估维度** (5个核心指标):
+| 维度 | 测量内容 |
+|------|----------|
+| 有趣性 | 内在享受感 |
+| 参与度 | 持续游玩意愿 |
+| 学习曲线 | 快速理解能力 |
+| 动机循环 | 进度吸引力 |
+| 目标匹配 | 目标玩家契合度 |
+
+**玩家视角** (12种预设):
+| ID | 类型 | 经验 | 动机 |
+|----|------|------|------|
+| P01 | 探索者 | 休闲 | 放松 |
+| P02 | 探索者 | 核心 | 发现 |
+| P03 | 成就者 | 休闲 | 进度 |
+| P04 | 成就者 | 硬核 | 精通 |
+| P05 | 社交者 | 休闲 | 连接 |
+| P06 | 社交者 | 核心 | 社区 |
+| P07 | 杀手 | 核心 | 竞技 |
+| P08 | 杀手 | 硬核 | 支配 |
+| P09 | 创造型 | 休闲 | 表达 |
+| P10 | 创造型 | 核心 | 建造 |
+| P11 | 综合型 | 核心 | 多样 |
+| P12 | 新手 | 休闲 | 易上手 |
+
+**输出**:
+- `design/gdd/player-evaluation-report.md`
+- 整体评分 (1-5)
+- 各维度评分
+- 共识问题 + 改进建议
+- 优先级行动项
+
+**自动触发**:
+- `/brainstorm` 保存 GDD 后自动询问是否评估
+
+**适合场景**:
+- GDD 生成后的验证
+- 原型前的设计审查
+- 识别设计问题
 
 ---
 

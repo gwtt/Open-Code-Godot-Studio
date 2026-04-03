@@ -195,11 +195,89 @@ Present the **Game Concept Document** for approval:
 - Create directory if needed: `design/gdd/`
 - Write file: `design/gdd/game-concept.md`
 - Say: "✅ 已保存到 design/gdd/game-concept.md"
+- **NEW**: 自动触发 Phase 8 (玩家评估)
 
 **IF USER WANTS CHANGES**:
 - Make changes, re-present, ask for approval again
 
 **STOP**: After saving or if user declines.
+
+---
+
+## Phase 8: Player Evaluation (NEW)
+
+> **自动触发**: Phase 7 保存成功后自动执行
+
+### Step 1: 询问是否评估
+
+**ASK**:
+```
+游戏概念已保存！是否从玩家视角评估这个概念？
+
+A) 是，启动玩家评估 (推荐)
+B) 跳过，稍后再评估
+C) 手动选择评估视角
+
+评估将:
+- 从多个玩家视角评估游戏概念
+- 识别有趣性、参与度、学习曲线等问题
+- 提供具体的改进建议
+```
+
+**STOP**: Wait for user's choice.
+
+### Step 2: 调用 Player Evaluator Skill
+
+**IF user selects A or C**:
+
+```
+正在启动 player-evaluator skill...
+```
+
+**EXECUTE**: `/player-evaluator`
+
+**该 skill 将**:
+1. 读取 `design/gdd/game-concept.md`
+2. 自动选择 4-6 个玩家视角 (基于目标玩家)
+3. 并发启动多个评估任务
+4. 生成评估报告到 `design/gdd/player-evaluation-report.md`
+
+### Step 3: 处理评估结果
+
+**AFTER player-evaluator completes**:
+
+**READ**: `design/gdd/player-evaluation-report.md`
+
+**PRESENT摘要**:
+```
+评估完成！
+
+**整体评分**: [X]/5
+**首要优点**: [Top strength]
+**首要担忧**: [Top concern]
+
+**关键改进建议**:
+1. [建议1]
+2. [建议2]
+3. [建议3]
+
+选择:
+A) 查看完整报告
+B) 讨论如何改进
+C) 继续下一步 (setup-engine)
+```
+
+**STOP**: Wait for user's choice.
+
+### Step 4: 可选 - 迭代改进
+
+**IF user wants to improve**:
+
+- 使用 `/game-designer` 实施改进建议
+- 重新运行 `/player-evaluator` 验证
+- 更新 `game-concept.md`
+
+**STOP**: After user is satisfied or wants to continue.
 
 ---
 
@@ -211,6 +289,8 @@ Present the **Game Concept Document** for approval:
 | User seems confused by frameworks | Skip framework, just summarize what they said |
 | User wants to quit | Say "好的，你可以随时继续。想保存目前的想法吗？" |
 | Cannot create directory | Ask user to create `design/gdd/` manually, then retry |
+| Player evaluator fails | Report error, offer to skip or retry |
+| No game-concept.md found | Skip Phase 8, proceed to next step |
 
 ---
 
@@ -220,8 +300,10 @@ Present the **Game Concept Document** for approval:
 |-------|---------|----------|
 | 1. Context | Understand starting point | User's initial idea |
 | 2. Discovery | Explore core elements | User's choice of focus |
+| 2.5. Questionnaire | Game-type specifics | Completed type questions |
 | 3. Structure | Apply framework | User's approval of structure |
 | 4. Scope | Set realistic goals | User's scope decision |
 | 5. Engine | Technology choice | User's engine preference |
 | 6. Output | Generate document | User's approval to save |
 | 7. Save | Write file | Confirmation |
+| 8. Evaluation | Player perspective review | Evaluation report |

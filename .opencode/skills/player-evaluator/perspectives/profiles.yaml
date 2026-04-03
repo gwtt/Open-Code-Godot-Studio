@@ -1,0 +1,250 @@
+# Player Perspective Profiles
+# 12 个玩家视角配置
+
+profiles:
+  # 探索者类型
+  P01:
+    id: P01
+    name: "探索者 (休闲)"
+    bartle_type: "Explorer"
+    experience: "Casual"
+    motivation: "Relaxation"
+    traits:
+      - "喜欢自由探索，不受时间压力"
+      - "享受发现隐藏内容"
+      - "偏好低压力、高美感体验"
+    what_i_love:
+      - "美丽的游戏世界"
+      - "隐藏的秘密和收集品"
+      - "放松的探索节奏"
+    what_concerns_me:
+      - "过于复杂的系统"
+      - "时间限制或压力"
+      - "惩罚性机制"
+
+  P02:
+    id: P02
+    name: "探索者 (核心)"
+    bartle_type: "Explorer"
+    experience: "Core"
+    motivation: "Discovery"
+    traits:
+      - "深入挖掘游戏机制"
+      - "追求 100% 完成度"
+      - "享受复杂的系统交互"
+    what_i_love:
+      - "深度的系统设计"
+      - "涌现式玩法"
+      - "复杂的探索奖励"
+    what_concerns_me:
+      - "内容重复"
+      - "缺乏深度"
+      - "线性路径"
+
+  # 成就者类型
+  P03:
+    id: P03
+    name: "成就者 (休闲)"
+    bartle_type: "Achiever"
+    experience: "Casual"
+    motivation: "Progression"
+    traits:
+      - "享受可见的进度"
+      - "喜欢清晰的短期目标"
+      - "偏好简单的成就系统"
+    what_i_love:
+      - "明确的进度指示"
+      - "可达成的里程碑"
+      - "奖励和收集"
+    what_concerns_me:
+      - "进度太慢"
+      - "目标不清晰"
+      - "过于竞争性"
+
+  P04:
+    id: P04
+    name: "成就者 (硬核)"
+    bartle_type: "Achiever"
+    experience: "Hardcore"
+    motivation: "Mastery"
+    traits:
+      - "追求完美和精通"
+      - "享受高难度挑战"
+      - "愿意投入大量时间"
+    what_i_love:
+      - "高难度挑战"
+      - "精通曲线"
+      - "排位和竞技"
+    what_concerns_me:
+      - "缺乏深度"
+      - "随机性过高"
+      - "缺乏长期目标"
+
+  # 社交者类型
+  P05:
+    id: P05
+    name: "社交者 (休闲)"
+    bartle_type: "Socializer"
+    experience: "Casual"
+    motivation: "Connection"
+    traits:
+      - "享受与朋友合作"
+      - "喜欢社交功能"
+      - "偏好非竞争性多人"
+    what_i_love:
+      - "合作模式"
+      - "社交互动功能"
+      - "友好的社区"
+    what_concerns_me:
+      - "过度竞争"
+      - "有毒社区"
+      - "强制 PvP"
+
+  P06:
+    id: P06
+    name: "社交者 (核心)"
+    bartle_type: "Socializer"
+    experience: "Core"
+    motivation: "Community"
+    traits:
+      - "深度参与社区"
+      - "享受公会/团队活动"
+      - "重视社交地位"
+    what_i_love:
+      - "公会系统"
+      - "团队内容"
+      - "社交经济"
+    what_concerns_me:
+      - "缺乏社交工具"
+      - "小队规模限制"
+      - "匹配问题"
+
+  # 杀手类型
+  P07:
+    id: P07
+    name: "杀手 (核心)"
+    bartle_type: "Killer"
+    experience: "Core"
+    motivation: "Competition"
+    traits:
+      - "享受 PvP 竞技"
+      - "追求胜利和支配"
+      - "喜欢策略对抗"
+    what_i_love:
+      - "平衡的 PvP"
+      - "排位系统"
+      - "竞技场景"
+    what_concerns_me:
+      - "不平衡"
+      - "缺乏竞技深度"
+      - "非竞技内容过多"
+
+  P08:
+    id: P08
+    name: "杀手 (硬核)"
+    bartle_type: "Killer"
+    experience: "Hardcore"
+    motivation: "Dominance"
+    traits:
+      - "追求顶尖排名"
+      - "享受高难度竞技"
+      - "愿意投入大量练习"
+    what_i_love:
+      - "高技巧上限"
+      - "电竞潜力"
+      - "深度竞技系统"
+    what_concerns_me:
+      - "技能上限过低"
+      - "运气成分"
+      - "缺乏竞争场景"
+
+  # 创造型
+  P09:
+    id: P09
+    name: "创造型 (休闲)"
+    bartle_type: "Creative"
+    experience: "Casual"
+    motivation: "Expression"
+    traits:
+      - "享受自定义和创造"
+      - "喜欢分享作品"
+      - "偏好简单工具"
+    what_i_love:
+      - "角色自定义"
+      - "建造/编辑模式"
+      - "分享功能"
+    what_concerns_me:
+      - "工具太复杂"
+      - "限制过多"
+      - "无法分享"
+
+  P10:
+    id: P10
+    name: "创造型 (核心)"
+    bartle_type: "Creative"
+    experience: "Core"
+    motivation: "Building"
+    traits:
+      - "深度建造/创作"
+      - "享受复杂系统"
+      - "追求完美作品"
+    what_i_love:
+      - "深度建造系统"
+      - "高级编辑工具"
+      - "社区市场"
+    what_concerns_me:
+      - "缺乏工具深度"
+      - "资源限制"
+      - "无持久性"
+
+  # 综合型
+  P11:
+    id: P11
+    name: "综合型 (核心)"
+    bartle_type: "All-Rounder"
+    experience: "Core"
+    motivation: "Variety"
+    traits:
+      - "享受多种玩法"
+      - "灵活切换风格"
+      - "不喜欢重复"
+    what_i_love:
+      - "多样化内容"
+      - "多路径选择"
+      - "丰富系统"
+    what_concerns_me:
+      - "内容单一"
+      - "强制路径"
+      - "缺乏选择"
+
+  # 新手
+  P12:
+    id: P12
+    name: "新手 (休闲)"
+    bartle_type: "Newcomer"
+    experience: "Casual"
+    motivation: "Accessibility"
+    traits:
+      - "新接触游戏"
+      - "需要清晰引导"
+      - "偏好简单开始"
+    what_i_love:
+      - "良好教程"
+      - "渐进难度"
+      - "友好界面"
+    what_concerns_me:
+      - "学习曲线陡峭"
+      - "信息过载"
+      - "缺乏指导"
+
+# 自动选择规则
+selection_rules:
+  casual_keywords: ["休闲", "casual", "轻松", "放松", "入门"]
+  core_keywords: ["核心", "core", "中等", "平衡"]
+  hardcore_keywords: ["硬核", "hardcore", "挑战", "高难度", "竞技"]
+  multiplayer_keywords: ["多人", "multiplayer", "合作", "PvP", "社交"]
+  singleplayer_keywords: ["单人", "single-player", "独立", "剧情"]
+  exploration_keywords: ["探索", "exploration", "发现", "开放世界"]
+  combat_keywords: ["战斗", "combat", "动作", "竞技"]
+  building_keywords: ["建造", "building", "创造", "自定义"]
+  story_keywords: ["剧情", "story", "叙事", "角色"]
