@@ -11,7 +11,7 @@ AI 驱动的 Godot 4.6.1 游戏开发框架。
 ## 这是什么？
 
 一套协调的 AI agent 系统，用于独立游戏开发：
-- **18 个专业技能** 用于 Godot 游戏开发
+- **19 个专业技能** 用于 Godot 游戏开发
 - **自动化 hooks** 强制质量检查
 - **路径范围规则** 编码标准
 
@@ -52,7 +52,7 @@ cp Open-Code-Godot-Studio/OPENCODE.md 你的项目/OPENCODE.md
 /start
 ```
 
-完成！你的项目现在拥有 18 个 Godot AI Skills。
+完成！你的项目现在拥有 19 个 Godot AI Skills。
 
 > **你复制的内容:**
 > - `.opencode/` — Skills、hooks、rules、engine reference
@@ -66,7 +66,7 @@ cp Open-Code-Godot-Studio/OPENCODE.md 你的项目/OPENCODE.md
 
 ```
 你的项目/.opencode/
-├── skills/     # 必须 — 18 个 Godot Skills
+├── skills/     # 必须 — 19 个 Godot Skills
 ├── hooks/      # 推荐 — 自动化脚本
 └── rules/      # 推荐 — 编码标准
 ```
@@ -77,7 +77,7 @@ cp Open-Code-Godot-Studio/OPENCODE.md 你的项目/OPENCODE.md
 
 | 组件 | 数量 | 用途 |
 |------|------|------|
-| **Skills** | 18 个 | Godot 专用 AI 代理 |
+| **Skills** | 19 个 | Godot 专用 AI 代理 |
 | **Hooks** | 4 个 | 自动化（session、commit、asset） |
 | **Rules** | 3 个 | 编码标准（GDScript、C#） |
 | **Engine Reference** | 12 个文档 | API 更新参考（4.4-4.6） |
@@ -105,7 +105,7 @@ cp Open-Code-Godot-Studio/OPENCODE.md 你的项目/OPENCODE.md
 
 | 文档 | 描述 |
 |------|------|
-| [SKILLS.md](docs/SKILLS.md) | 所有 18 个技能详细指南 |
+| [SKILLS.md](docs/SKILLS.md) | 所有 19 个技能详细指南 |
 | [WORKFLOW.md](docs/WORKFLOW.md) | 典型工作流程 |
 | [QUICK-START.md](docs/QUICK-START.md) | 5 分钟入门 |
 | [tutorials/](docs/tutorials/) | 实战教程 |
@@ -117,7 +117,7 @@ cp Open-Code-Godot-Studio/OPENCODE.md 你的项目/OPENCODE.md
 | 分类 | Skills |
 |------|--------|
 | **领导核心** | `start`, `producer`, `technical-director` |
-| **执行支持** | `godot-specialist`, `sprint-plan`, `art-coordinator`, `prototype-mode` |
+| **执行支持** | `godot-specialist`, `sprint-plan`, `art-coordinator`, `prototype-mode`, `player-evaluator` |
 | **设计支持** | `brainstorm`, `game-designer`, `design-review` |
 | **深度技术** | `godot-gdscript`, `godot-csharp`, `godot-shader`, `godot-gdextension`, `code-review` |
 | **顾问角色** | `creative-director`, `lead-programmer` |
@@ -130,7 +130,7 @@ cp Open-Code-Godot-Studio/OPENCODE.md 你的项目/OPENCODE.md
 
 ```
 .opencode/
-├── skills/        → 18 个游戏开发技能
+├── skills/        → 19 个游戏开发技能
 ├── hooks/         → 自动化脚本
 ├── rules/         → 编码标准
 └── docs/          → 模板和参考
@@ -168,11 +168,12 @@ tests/             → 测试套件
 
 ## 功能特性
 
-### Skills (18 个)
+### Skills (19 个)
 - Godot 专用: `godot-specialist`, `godot-gdscript`, `godot-csharp`, `godot-shader`, `godot-gdextension`
 - 游戏开发核心: `creative-director`, `technical-director`, `producer`, `game-designer`, `lead-programmer`
 - 工作流程: `start`, `brainstorm`, `setup-engine`, `sprint-plan`, `code-review`, `design-review`
-- 新增: `art-coordinator`, `prototype-mode`
+- 设计验证: `player-evaluator` (多视角 GDD 评估)
+- 新增: `art-coordinator`, `prototype-mode`, `player-evaluator`
 
 ### 语言支持
 - **C# (主语言)**: .NET 生态系统，更好的 AI 代码生成，复杂数据处理
@@ -205,7 +206,7 @@ tests/             → 测试套件
 |------|--------|
 | `.claude/` 目录 | `.opencode/` 目录 |
 | CLAUDE.md | OPENCODE.md |
-| 48 个 agents | 17 个专注技能 |
+| 48 个 agents | 19 个专注技能 |
 | 多引擎支持 | Godot 专注 |
 
 ---

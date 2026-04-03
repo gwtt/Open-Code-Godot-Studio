@@ -11,7 +11,7 @@ AI-powered game development framework for Godot 4.6.1.
 ## What Is This?
 
 A coordinated AI agent system for indie game development:
-- **18 specialized skills** for Godot game dev
+- **19 specialized skills** for Godot game dev
 - **Automated hooks** for quality enforcement
 - **Path-scoped rules** for coding standards
 
@@ -52,7 +52,7 @@ Open your project in OpenCode and run:
 /start
 ```
 
-Done! You now have 18 Godot AI skills in your project.
+Done! You now have 19 Godot AI skills in your project.
 
 > **What you copied:**
 > - `.opencode/` — Skills, hooks, rules, engine reference
@@ -66,7 +66,7 @@ If you only need core functionality:
 
 ```
 your-project/.opencode/
-├── skills/     # Required — 18 Godot skills
+├── skills/     # Required — 19 Godot skills
 ├── hooks/      # Recommended — Automation scripts
 └── rules/      # Recommended — Coding standards
 ```
@@ -77,7 +77,7 @@ your-project/.opencode/
 
 | Component | Count | Purpose |
 |-----------|-------|---------|
-| **Skills** | 18 | Godot-specific AI agents |
+| **Skills** | 19 | Godot-specific AI agents |
 | **Hooks** | 4 | Automation (session, commit, asset) |
 | **Rules** | 3 | Coding standards (GDScript, C#) |
 | **Engine Reference** | 12 docs | API updates (4.4-4.6) |
@@ -105,7 +105,7 @@ System detects your state and guides you.
 
 | Document | Description |
 |----------|-------------|
-| [SKILLS.md](docs/SKILLS.md) | All 18 skills detailed guide |
+| [SKILLS.md](docs/SKILLS.md) | All 19 skills detailed guide |
 | [WORKFLOW.md](docs/WORKFLOW.md) | Typical workflows |
 | [QUICK-START.md](docs/QUICK-START.md) | 5-minute guide |
 | [tutorials/](docs/tutorials/) | Hands-on tutorials |
@@ -117,7 +117,7 @@ System detects your state and guides you.
 | Category | Skills |
 |----------|--------|
 | **Leadership Core** | `start`, `producer`, `technical-director` |
-| **Execution Support** | `godot-specialist`, `sprint-plan`, `art-coordinator`, `prototype-mode` |
+| **Execution Support** | `godot-specialist`, `sprint-plan`, `art-coordinator`, `prototype-mode`, `player-evaluator` |
 | **Design Support** | `brainstorm`, `game-designer`, `design-review` |
 | **Deep Technical** | `godot-gdscript`, `godot-csharp`, `godot-shader`, `godot-gdextension`, `code-review` |
 | **Advisory** | `creative-director`, `lead-programmer` |
@@ -130,7 +130,7 @@ System detects your state and guides you.
 
 ```
 .opencode/
-├── skills/        → 18 game dev skills
+├── skills/        → 19 game dev skills
 ├── hooks/         → Automation scripts
 ├── rules/         → Coding standards
 └── docs/          → Templates and references
@@ -168,11 +168,12 @@ Friday:   /producer → Week summary
 
 ## Features
 
-### Skills (18 total)
+### Skills (19 total)
 - Godot-specific: `godot-specialist`, `godot-gdscript`, `godot-csharp`, `godot-shader`, `godot-gdextension`
 - Game dev core: `creative-director`, `technical-director`, `producer`, `game-designer`, `lead-programmer`
 - Workflows: `start`, `brainstorm`, `setup-engine`, `sprint-plan`, `code-review`, `design-review`
-- New: `art-coordinator`, `prototype-mode`
+- Design validation: `player-evaluator` (multi-perspective GDD evaluation)
+- New: `art-coordinator`, `prototype-mode`, `player-evaluator`
 
 ### Language Support
 - **C# (Primary)**: .NET ecosystem, better AI code generation, complex data processing
@@ -205,7 +206,7 @@ See [integration docs](https://raw.githubusercontent.com/code-yeongyu/oh-my-open
 |----------|--------------|
 | `.claude/` directory | `.opencode/` directory |
 | CLAUDE.md | OPENCODE.md |
-| 48 agents | 17 focused skills |
+| 48 agents | 19 focused skills |
 | Multi-engine | Godot-focused |
 
 ---
