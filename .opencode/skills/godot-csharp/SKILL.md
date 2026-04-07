@@ -231,33 +231,49 @@ Console.WriteLine("...");  // 无效
 ### 使用 ToSignal
 
 ```csharp
-// 等待定时器
+// ✅ 正确 — 等待 Godot 定时器
 await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout);
 
-// 等待动画
+// ✅ 正确 — 等待动画完成
 await ToSignal(AnimationPlayer, AnimationPlayer.SignalName.AnimationFinished);
 
-// 等待自定义信号
+// ✅ 正确 — 等待自定义信号
 await ToSignal(this, SignalName.HealthChanged);
+
+// ❌ 错误 — Task.Delay 会在 Godot 主循环外运行，导致帧同步问题
+await Task.Delay(1000);  // 不要这样用！
 ```
 
-### 异步方法
+### ⚠️ await 后必须检查节点有效性
+
+节点可能在 await 期间被释放：
 
 ```csharp
 public async void PerformAttack()
 {
     IsAttacking = true;
     
-    // 播放动画并等待
     AnimationPlayer.Play("attack");
     await ToSignal(AnimationPlayer, AnimationPlayer.SignalName.AnimationFinished);
     
-    // 造成伤害
-    DealDamage();
+    // ⚠️ 必须检查！节点可能已被释放
+    if (!IsInstanceValid(this)) return;
     
+    DealDamage();
     IsAttacking = false;
 }
+```
 
+### fire-and-forget vs Task 返回
+
+```csharp
+// fire-and-forget（事件回调用）
+public async void OnButtonPressed()
+{
+    await LoadDataAsync();
+}
+
+// 可测试的异步方法（返回 Task）
 public async Task LoadLevelAsync(string levelPath)
 {
     var resource = GD.Load<PackedScene>(levelPath);
@@ -265,6 +281,32 @@ public async Task LoadLevelAsync(string levelPath)
     GetTree().CurrentScene.AddChild(instance);
 }
 ```
+
+---
+
+## 集合类型选择
+
+### C# 内部集合 vs Godot 集合
+
+```csharp
+// ✅ C# 内部使用 — 标准 .NET 集合（性能更好）
+private List<Enemy> _activeEnemies = new();
+private Dictionary<string, float> _stats = new();
+private HashSet<Item> _collectedItems = new();
+
+// ⚠️ 仅在与 GDScript 交互或导出到检查器时使用 Godot 集合
+[Export] public Godot.Collections.Array<Item> StartingItems { get; set; } = new();
+[Export] public Godot.Collections.Dictionary<string, int> ItemCounts { get; set; } = new();
+```
+
+### 选择指南
+
+| 场景 | 使用类型 | 原因 |
+|------|----------|------|
+| C# 内部逻辑 | `List<T>`, `Dictionary<K,V>` | 性能最优，无封送开销 |
+| 导出到检查器 | `Godot.Collections.Array<T>` | Godot 序列化要求 |
+| 传递给 GDScript | `Godot.Collections.*` | 跨语言兼容 |
+| 大量数值数据 | `Godot.Collections.Packed*Array` | 内存连续，性能优化 |
 
 ---
 
@@ -593,3 +635,38 @@ Run `/code-review` after fixing.
 - **godot-specialist** — 引擎通用指导
 - **godot-gdscript** — GDScript 模式 (转换参考)
 - **code-review** — 代码质量检查
+
+---
+
+## ⚠️ 常见反模式
+
+### 必须避免的错误
+
+| 错误 | 修正 | 后果 |
+|------|------|------|
+| 缺少 `partial` 关键字 | `public partial class Player : Node` | 源生成器静默失败，极难调试 |
+| 使用 `Task.Delay()` | `await ToSignal(GetTree().CreateTimer(x), ...)` | 破坏帧同步 |
+| `GetNode()` 无泛型 | `GetNode<ProgressBar>(...)` | 丢失类型安全 |
+| 信号未在 `_ExitTree()` 断开 | 在退出时 `-=` 断开连接 | 内存泄漏、Use-After-Free |
+| 信号委托无 `EventHandler` 后缀 | `HealthChangedEventHandler` | 源生成器失败 |
+| 静态字段持有节点引用 | 使用实例字段或 Autoload | 场景重载崩溃 |
+| 直接调用 `_Ready()` | 让 Godot 自动调用 | 生命周期混乱 |
+| Lambda 捕获 `this` 注册信号 | 使用命名方法 | 阻止 GC 回收 |
+
+---
+
+## 版本感知
+
+**关键**: 你的训练数据有知识截止日期。在建议 Godot C# 代码前：
+
+1. 读取 `.opencode/docs/engine-reference/godot/VERSION.md` 确认引擎版本
+2. 检查 `deprecated-apis.md` 了解废弃的 API
+3. 检查 `breaking-changes.md` 了解版本变更
+4. 对于不确定的 API，使用 WebSearch 验证
+
+**Godot 4.x C# 变化要点**:
+- 源生成器现在生成 `SignalName` 和 `MethodName` 内部类
+- `[GlobalClass]` 行为在不同版本可能有差异
+- .NET 版本要求：Godot 4.6+ 需要 .NET 8
+
+不要依赖本文件中的内联版本声明 — 它们可能是错的。始终检查参考文档。
