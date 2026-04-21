@@ -353,6 +353,162 @@ func _ready():
     owner = get_parent().get_parent()  # Fragile!
 ```
 
+## Scene-Defined Structural Nodes (场景定义结构性节点)
+
+### Rule
+
+所有结构性子节点必须定义在 `.tscn` 场景文件中，**禁止**在 `_ready()` 或 `_init()` 中通过代码动态创建。
+
+### What are Structural Nodes?
+
+Structural nodes are permanent scene architecture elements that define the shape and behavior of a scene:
+
+| Node Type | Purpose |
+|-----------|---------|
+| `CollisionShape2D/3D` | Physics collision geometry |
+| `Sprite2D/3D` | Visual representation |
+| `Camera2D/3D` | Viewport control |
+| `AnimationPlayer` | Animation playback |
+| `AudioStreamPlayer` | Sound playback |
+| `Timer` | Delayed/countdown events |
+| `MeshInstance3D` | 3D visual geometry |
+| `Light2D/3D` | Lighting effects |
+| `Area2D/3D` | Detection zones |
+
+### GDScript Examples
+
+```gdscript
+# ✅ Good - Node defined in .tscn, referenced via @onready
+@onready var collision: CollisionShape2D = $CollisionShape2D
+@onready var sprite: Sprite2D = $Sprite
+@onready var timer: Timer = $DamageCooldown
+
+# ❌ Bad - Node created in code
+func _ready() -> void:
+    var col := CollisionShape2D.new()
+    add_child(col)  # Forbidden for structural nodes!
+
+# ❌ Bad - Node created in _init
+func _init() -> void:
+    var col := CollisionShape2D.new()
+    add_child(col)  # Forbidden!
+```
+
+### C# Examples
+
+```csharp
+// ✅ Good - Node defined in .tscn, referenced via GetNode
+private CollisionShape2D _collision;
+private Sprite2D _sprite;
+private Timer _damageCooldown;
+
+public override void _Ready()
+{
+    _collision = GetNode<CollisionShape2D>("CollisionShape2D");
+    _sprite = GetNode<Sprite2D>("Sprite");
+    _damageCooldown = GetNode<Timer>("DamageCooldown");
+}
+
+// ❌ Bad - Node created in code
+public override void _Ready()
+{
+    var col = new CollisionShape2D();
+    AddChild(col);  // Forbidden for structural nodes!
+}
+
+// ❌ Bad - Node created in constructor
+public MyClass()
+{
+    var col = new CollisionShape2D();
+    AddChild(col);  // Forbidden!
+}
+```
+
+### Exception: Dynamic Runtime Entities
+
+`PackedScene.Instantiate()` for dynamic runtime entities **IS allowed**:
+
+```gdscript
+# ✅ Allowed - Dynamic instantiation for runtime entities
+func spawn_enemy(position: Vector2) -> void:
+    var enemyScene := preload("res://scenes/enemy.tscn") as PackedScene
+    var enemy := enemyScene.instantiate()
+    enemy.position = position
+    add_child(enemy)
+
+func shoot_bullet() -> void:
+    var bullet := _bulletScene.instantiate()
+    bullet.global_position = gun_point.global_position
+    get_parent().add_child(bullet)
+```
+
+```csharp
+// ✅ Allowed - Dynamic instantiation for runtime entities
+private PackedScene _enemyScene;
+
+public override void _Ready()
+{
+    _enemyScene = GD.Load<PackedScene>("res://scenes/enemy.tscn");
+}
+
+public void SpawnEnemy(Vector2 position)
+{
+    var enemy = _enemyScene.Instantiate();
+    enemy.Position = position;
+    AddChild(enemy);
+}
+```
+
+**Allowed dynamic entities:**
+- Enemies, NPCs, projectiles, pickups
+- Particle effects, visual FX
+- UI elements spawned at runtime
+- Any entity that is created/destroyed during gameplay
+
+### MCP Integration
+
+When MCP is available, use these tools to create scene-defined nodes:
+
+**MCP Available:**
+```
+godot_create_scene       → Create new .tscn file
+godot_add_node          → Add child nodes to scene
+godot_save_scene        → Save scene changes
+```
+
+**MCP Unavailable:**
+When MCP tools are not available, write `.tscn` content directly:
+
+```txt
+[gd_scene load_steps=2 format=3 uid="uid://example"]
+
+[ext_resource type="Script" path="res://scripts/player.cs" id="1"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+```
+
+Then provide manual instructions for adding nodes via Godot Editor.
+
+### Rationale
+
+**代码创建的节点在 Godot Editor 中不可见**，无法在 Inspector 中调整属性，无法可视化调试。`.tscn` 中定义的节点完全可编辑、可调试、符合 Godot 设计哲学。
+
+| Aspect | Code-Created | Scene-Defined |
+|--------|-------------|---------------|
+| Inspector编辑 | ❌ 不可见 | ✅ 完全可编辑 |
+| 可视化调试 | ❌ 不可见 | ✅ Scene面板可见 |
+| 属性引用 | ❌ 需要额外代码 | ✅ 直接引用 |
+| Godot哲学 | ❌ 违反直觉 | ✅ 符合设计 |
+| 团队协作 | ❌ 路径不明确 | ✅ 明确可见 |
+
+---
+
 ## Comment Standards
 
 ```gdscript

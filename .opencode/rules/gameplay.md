@@ -95,6 +95,44 @@ signal health_changed  # No types
 signal update  # Vague name
 ```
 
+### Scene-Defined Structural Nodes
+
+- **规则声明**：所有结构性/永久性子节点必须定义在 `.tscn` 场景文件中，禁止在 `_ready()` 中通过 `add_child()` 或 `.new()` 创建
+- **结构性节点定义**：CollisionShape2D/3D、Sprite2D/3D、Camera2D/3D、AnimationPlayer、AudioStreamPlayer、Timer、MeshInstance3D、Light2D/3D、Area2D/3D 及其碰撞形状 — 任何构成永久场景架构的节点
+
+```gdscript
+# ✅ Good
+@onready var collision: CollisionShape2D = $CollisionShape2D
+
+# ❌ Bad
+func _ready() -> void:
+    var col = CollisionShape2D.new()
+    col.shape = CapsuleShape2D.new()
+    add_child(col)  # 节点在代码中创建，编辑器 Scene 面板中不可见！
+```
+
+```csharp
+// ✅ Good
+private CollisionShape2D _collision;
+
+// public override void _Ready()
+// {
+//     _collision = GetNode<CollisionShape2D>("CollisionShape2D");
+// }
+
+// ❌ Bad
+// public override void _Ready()
+// {
+//     var col = new CollisionShape2D();
+//     col.Shape = new CapsuleShape2D();
+//     AddChild(col);  // 节点在代码中创建，编辑器 Scene 面板中不可见！
+// }
+```
+
+- **明确例外**：通过 `PackedScene.instantiate()` 动态生成的节点（敌人、子弹、粒子等）是允许的 — 仅限于结构性/永久性节点禁止代码创建
+- **原因**：在代码中创建的节点在 Godot 编辑器的 Scene 面板中不可见，用户无法编辑属性、调整位置或可视化调试场景结构
+- **参考**：当 Godot MCP 可用时，使用 `godot_create_scene` + `godot_add_node` + `godot_save_scene` 构建场景；当 MCP 不可用时，提供 tscn 内容供用户手动创建
+
 ## Rationale
 
 These rules ensure:

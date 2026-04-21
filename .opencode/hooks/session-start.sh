@@ -14,11 +14,16 @@ if [ -d ".git" ]; then
     git log --oneline -5 2>/dev/null || echo "  No commits yet"
 fi
 
-# Check for missing documentation
-if [ -d "src" ] && [ ! -f "design/gdd/game-concept.md" ]; then
+# Check project context and suggest appropriate action
+if [ -f ".opencode/project-context.md" ]; then
     echo ""
-    echo "⚠️  Project has code but no game concept document."
-    echo "   Consider running /start to set up documentation."
+    echo "✅  Project context found. Use /resume to restore context."
+else
+    if [ -d "src" ] && [ ! -f "design/gdd/game-concept.md" ]; then
+        echo ""
+        echo "⚠️  Project has code but no game concept document."
+        echo "   Consider running /start to set up documentation."
+    fi
 fi
 
 exit 0

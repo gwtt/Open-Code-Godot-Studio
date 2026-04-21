@@ -62,6 +62,18 @@ Enforces:
 - Isolated from main codebase
 - Mark for deletion or integration
 
+### ALL src/** — Scene-Defined Structural Nodes (场景定义结构性节点)
+
+Enforces:
+1. Structural child nodes MUST be in .tscn, NOT created in `_ready()` via code
+2. Structural nodes definition: CollisionShape2D/3D, Sprite2D/3D, Camera2D/3D, AnimationPlayer, AudioStreamPlayer, Timer, MeshInstance3D, Light2D/3D, Area2D/3D — any permanent scene architecture node
+3. NO `add_child()` for structural/permanent nodes in `_ready()` or `_init()`
+4. NO `.new()` for node types that belong in the scene tree permanently
+5. YES `@onready` / `[Export]` for referencing scene-defined nodes
+6. YES `PackedScene.Instantiate()` for dynamic runtime entities (enemies, bullets, pickups)
+7. Use MCP tools (godot_create_scene, godot_add_node, godot_save_scene) when MCP is available to build scenes
+8. When MCP unavailable, provide .tscn file content for manual creation
+
 ## Rule Format
 
 Each rule file follows this structure:

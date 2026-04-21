@@ -4,6 +4,71 @@ Use this template when providing scene assembly instructions instead of generati
 
 ---
 
+## MCP 场景构建（首选方案）
+
+> **⚠️ 重要声明**：当 Godot MCP 可用时，场景构建**必须**使用 MCP 工具。手动组装**仅在 MCP 不可用时**作为备选方案。
+
+### MCP 工具流程
+
+当 MCP 可用时，**必须**按以下顺序使用工具构建场景：
+
+1. `godot_create_scene` — 创建场景文件
+2. `godot_add_node` — 为每个结构节点添加节点（重复调用）
+3. `godot_save_scene` — 保存场景
+
+### 核心规则
+
+- **结构节点**（CollisionShape、Sprite、Camera、AnimationPlayer、Timer 等）**必须**通过 MCP 在 .tscn 中创建，**禁止**通过 `add_child()` 在代码中动态添加
+- MCP 场景创建完成后，只需编写脚本，使用 `@onready` 引用节点（**禁止**在代码中 `add_child` 结构节点）
+- **动态实体**（敌人、子弹等）通过 `PackedScene.instantiate()` 实例化是**允许的**
+
+### 示例：Player 场景的 MCP 构建流程
+
+```bash
+# 1. 创建 Player 场景
+godot_create_scene("res://scenes/player.tscn", "CharacterBody2D")
+
+# 2. 添加结构节点（按从父到子的顺序）
+godot_add_node("res://scenes/player.tscn", "Player", "Sprite", "Sprite2D")
+godot_add_node("res://scenes/player.tscn", "Player", "CollisionShape", "CollisionShape2D")
+godot_add_node("res://scenes/player.tscn", "Player", "Camera", "Camera2D")
+godot_add_node("res://scenes/player.tscn", "Player", "Hitbox", "Area2D")
+godot_add_node("res://scenes/player.tscn", "Hitbox", "HitboxCollision", "CollisionShape2D")
+
+# 3. 保存场景
+godot_save_scene("res://scenes/player.tscn")
+```
+
+### MCP 场景创建后的脚本编写
+
+```csharp
+// player_controller.cs — 只需 @onready 引用，MCP 创建的节点无需 add_child
+public partial class PlayerController : CharacterBody2D
+{
+    [Export] private float _speed = 300f;
+
+    // @onready 等效 - 节点已由 MCP 在 .tscn 中创建
+    private Sprite2D _sprite;
+    private CollisionShape2D _collisionShape;
+    private Camera2D _camera;
+
+    public override void _Ready()
+    {
+        // 获取 MCP 创建的节点（无需实例化）
+        _sprite = GetNode<Sprite2D>("Sprite");
+        _collisionShape = GetNode<CollisionShape2D>("CollisionShape");
+        _camera = GetNode<Camera2D>("Camera");
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        // 移动逻辑...
+    }
+}
+```
+
+---
+
 ## Template Structure
 
 ### Node Tree Diagram
@@ -23,6 +88,9 @@ Use this template when providing scene assembly instructions instead of generati
 | Sprite | Sprite2D | texture: placeholder.png | — |
 
 ### Assembly Steps (Numbered)
+
+> ⚠️ **注意**：此手动指南**仅在 Godot MCP 不可用时**使用。MCP 可用时，请使用上方 **MCP 场景构建方案**。
+
 1. **Create root node**: In Scene dock → Add Node → Select [NodeType]
 2. **Attach script**: Drag script file from FileSystem to node, or right-click → Attach Script
 3. **Add child nodes**: Right-click root → Add Child Node → Select type

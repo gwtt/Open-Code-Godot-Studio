@@ -136,6 +136,83 @@ func _process(_delta):
 @export var c: float  # No grouping, no defaults, no constraints
 ```
 
+## Scene-Defined Structural Nodes (场景定义结构性节点)
+
+### Rule
+
+结构性子节点必须通过 `.tscn` 场景文件定义，禁止在 `_ready()` 中使用 `add_child()` 动态创建。
+
+### 什么是"结构性"节点
+
+以下节点类型属于场景的永久性架构，**必须**在 `.tscn` 中定义：
+
+- `CollisionShape2D` / `CollisionShape3D` — 碰撞体
+- `Sprite2D` / `Sprite3D` — 精灵/模型显示
+- `Camera2D` / `Camera3D` — 摄像机
+- `AnimationPlayer` — 动画控制器
+- `AudioStreamPlayer` — 音频播放器
+- `Timer` — 定时器
+- `MeshInstance3D` — 3D网格
+- `Light2D` / `Light3D` — 光源
+- `Area2D` / `Area3D` — 区域检测
+
+### ✅ Good
+
+```gdscript
+# 节点已在 .tscn 场景文件中定义，通过 @onready 缓存引用
+@onready var collision: CollisionShape2D = $CollisionShape2D
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var camera: Camera2D = $Camera2D
+
+func _ready() -> void:
+    collision.shape = RectangleShape2D.new()  # OK: 组件配置
+```
+
+### ❌ Bad
+
+```gdscript
+# 在代码中动态创建结构性节点 — 禁止
+func _ready() -> void:
+    var col := CollisionShape2D.new()
+    col.shape = RectangleShape2D.new()
+    add_child(col)  # 场景面板不可见，无法调试
+```
+
+```gdscript
+# 在代码中动态创建精灵 — 禁止
+func _ready() -> void:
+    var sprite := Sprite2D.new()
+    sprite.texture = preload("res://icon.svg")
+    add_child(sprite)
+```
+
+### 例外：动态实体
+
+`PackedScene.instantiate()` 用于动态生成实体是**允许的**：
+
+```gdscript
+# ✅ 允许：动态实例化预制体（敌人、子弹、道具）
+var enemy_scene := preload("res://entities/enemy.tscn")
+func spawn_enemy(pos: Vector2) -> void:
+    var enemy := enemy_scene.instantiate()
+    enemy.position = pos
+    add_child(enemy)
+```
+
+### 原理 (Rationale)
+
+代码创建的节点在 Godot Editor 的场景面板中**不可见**，用户无法：
+- 在编辑器中调整属性
+- 查看/修改节点位置
+- 调试场景结构
+
+正确做法是使用 MCP 工具 `godot_add_node` 创建场景节点，或手动编辑 `.tscn` 文件。
+
+### MCP 集成
+
+- 当 Godot MCP 可用时，使用 `godot_add_node` 创建场景节点
+- 当 MCP 不可用时，在 `.tscn` 中手动定义节点，或提供 tscn 内容
+
 ## Common Anti-Patterns
 
 ### Avoid These

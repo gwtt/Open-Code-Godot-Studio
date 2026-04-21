@@ -213,47 +213,85 @@ For assets, the Image Gen MCP can generate placeholder sprites.
 - When UI needs icons → suggest Image Gen MCP
 - When 3D models needed → suggest Blender MCP
 
-## Scene Assembly Protocol (NEW - replaces tscn generation)
+## Scene Assembly Protocol (MCP-First 场景构建)
 
-### ⚠️ NEVER generate .tscn files directly
+### ⚠️ 强制规则
 
-LLM-generated scene files are prone to:
-- Invalid node paths
-- Wrong resource UID references
-- Property type mismatches
+**所有结构性节点必须通过 Godot MCP 工具在 .tscn 中创建。禁止在 `_ready()` 中通过代码创建结构性子节点。**
 
-### Instead: Provide Assembly Guide
+**结构性节点**: CollisionShape2D/3D, CollisionPolygon2D/3D, Sprite2D/3D, AnimatedSprite2D/3D, Camera2D/3D, AnimationPlayer, AnimationTree, AudioStreamPlayer, AudioStreamPlayer2D/3D, Timer, MeshInstance3D, Light2D/3D, Area2D/3D — 任何构成场景永久架构的节点。
 
-**After generating script, output:**
+### MCP 构建流程（首选，强制）
 
-```markdown
-## Scene Assembly Instructions
+When Godot MCP is available, scenes MUST be built via MCP tools:
 
-### Node Tree
-```
-[RootNode] (type)
-├── [Child1] (type) — purpose
-├── [Child2] (type) — purpose
-│   └── [SubChild] (type) — purpose
-└── [Child3] (type) — purpose
-```
+```typescript
+// Step 1: 创建场景
+godot_create_scene({ projectPath, scenePath, rootNodeType })
 
-### Required Components
-| Node | Required Properties | Scripts |
-|------|--------------------|---------|
-| Player | position: (100, 200) | player_controller.gd |
-| HealthBar | value: 100, min: 0, max: 100 | health_bar.gd |
+// Step 2: 添加结构性节点
+godot_add_node({ projectPath, scenePath, nodeType: "CollisionShape2D", nodeName: "Collision", parentNodePath: "Player" })
+godot_add_node({ projectPath, scenePath, nodeType: "Sprite2D", nodeName: "Sprite", parentNodePath: "Player" })
+godot_add_node({ projectPath, scenePath, nodeType: "Camera2D", nodeName: "Camera", parentNodePath: "Player" })
 
-### Assembly Steps
-1. Create root node: Add Node → [NodeType]
-2. Attach script: Drag `player_controller.gd` to Player node
-3. Add child HealthBar: Add Node → ProgressBar → set properties
-4. Enable Unique Names: Right-click → Access as Unique Name (%HealthBar)
-
-### 💡 Tip: Use Godot MCP to test after assembly
+// Step 3: 保存场景
+godot_save_scene({ projectPath, scenePath })
 ```
 
-**ASK**: "I've created the scripts. Follow the assembly guide in Godot editor. Need help?"
+Then write the script — only logic, NO node creation:
+
+```csharp
+public partial class Player : CharacterBody2D
+{
+    [Export] public float Speed { get; set; } = 300.0f;
+
+    private Sprite2D _sprite;
+    private CollisionShape2D _collision;
+    private Camera2D _camera;
+
+    public override void _Ready()
+    {
+        _sprite = GetNode<Sprite2D>("Sprite");
+        _collision = GetNode<CollisionShape2D>("Collision");
+        _camera = GetNode<Camera2D>("Camera");
+        // NO AddChild() calls — nodes are in .tscn
+    }
+}
+```
+
+```gdscript
+@onready var sprite: Sprite2D = $Sprite
+@onready var collision: CollisionShape2D = $Collision
+@onready var camera: Camera2D = $Camera
+
+func _ready() -> void:
+    # NO add_child() calls — nodes are in .tscn
+    pass
+```
+
+### Fallback: MCP 不可用时
+
+If Godot MCP is unavailable:
+- Generate .tscn file content directly for user to save
+- Provide step-by-step manual creation guide for Godot Editor
+- **仍然禁止**在代码中通过 add_child() 创建结构性节点
+
+### 动态实体例外 (Allowed Dynamic Instantiation)
+
+PackedScene.Instantiate() for runtime entities IS allowed:
+- Enemy spawning
+- Bullet/projectile creation
+- Pickup/item generation
+- Particle effect instantiation
+
+These are NOT structural nodes — they are dynamic runtime entities.
+
+### Why: 代码 vs .tscn 对比
+
+| 创建方式 | 编辑器可见 | Inspector 可调 | 可调试 | 符合设计 |
+|----------|----------|--------------|--------|---------|
+| add_child() in code | ❌ 不可见 | ❌ 硬编码 | ❌ 无法调试 | ❌ 反模式 |
+| .tscn via MCP | ✅ 可见 | ✅ @export/[Export] | ✅ 可调试 | ✅ 正确 |
 
 ## Completion Recommendations (NEW)
 

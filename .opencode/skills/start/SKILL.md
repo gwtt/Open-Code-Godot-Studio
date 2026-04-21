@@ -238,6 +238,11 @@ Once user confirms their next action:
 下次会话将自动读取，无需重复回答。
 ```
 
+**TELL USER (新内容)**:
+```
+📌 下次新会话时，使用 `/resume` 快速恢复上下文，无需重新走完整流程。
+```
+
 **IF MCP was configured**:
 ```
 📌 MCP 配置状态：
@@ -309,6 +314,8 @@ Once user confirms their next action:
 
 **Updated by**: `/setup-engine` (engine info), `/brainstorm` (vision), other skills
 
+**快速恢复**: `/resume` skill 可在新会话中自动读取此文件，无需重复 `/start` 流程。
+
 **Template**: `.opencode/docs/templates/project-context-template.md`
 
 ---
@@ -319,6 +326,7 @@ Once user confirms their next action:
 
 | 状态 | 首选 Skill |
 |------|------------|
+| 新会话恢复 | `/resume` |
 | 没想法 | `/brainstorm` |
 | 有想法 | `/brainstorm "idea"` |
 | 概念清晰 | `/setup-engine` |
@@ -328,6 +336,7 @@ Once user confirms their next action:
 
 | 状态 | 首选 Skill | 额外工具 |
 |------|------------|----------|
+| 新会话恢复 | `/resume` | — |
 | 没想法 | `/brainstorm` | 团队讨论 |
 | 概念清晰 | `/setup-engine` | `/art-coordinator` |
 | 已有成果 | `/producer` | `/sprint-plan` |
